@@ -31,3 +31,7 @@
   file:
     path: files/auto-apt_pcre.sh
     state: absent
+  register: _delete_apt_pcre_sh
+  delegate_to: localhost
+
+- debug: var=_delete_apt_pcre_sh

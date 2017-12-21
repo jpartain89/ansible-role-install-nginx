@@ -31,3 +31,7 @@
   file:
     path: files/auto-apt_openssl.sh
     state: absent
+  register: _delete_apt_openssl_sh
+  delegate_to: localhost
+
+- debug: var=_delete_apt_openssl_sh

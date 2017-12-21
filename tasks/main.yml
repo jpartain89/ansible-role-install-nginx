@@ -59,3 +59,12 @@
   register: _auto_apt_nginx_sh
 
 - debug: var=_auto_apt_nginx_sh
+
+- name: Delete the NGINX Shell Script
+  file:
+    path: files/auto-apt_nginx.sh
+    state: absent
+  register: _delete_apt_nginx_sh
+  delegate_to: localhost
+
+- debug: var=_delete_apt_nginx_sh
