@@ -35,10 +35,12 @@
 
 - name: Git Clone Any Additional Static Modules
   git:
-    repo: "{{ nginx_module.address }}"
-    dest: "/tmp/nginx/{{ nginx_module.name }}"
+    repo: "{{ item.address }}"
+    dest: "/tmp/nginx/{{ item.name }}"
     clone: yes
     update: yes
+  with_items:
+    - "{{ nginx_module }}"
 
 - name: Run NGINX Steps
   include_tasks: nginx.yml
