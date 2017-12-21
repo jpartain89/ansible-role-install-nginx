@@ -27,14 +27,6 @@
 - name: Run OpenSSL Steps
   include_tasks: openssl.yml
 
-- name: Download NGINX Source
-  unarchive:
-    src: "{{ nginx_url }}"
-    dest: "/tmp/nginx"
-    remote_src: yes
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
-
 - name: Git Clone Any Additional Static Modules
   git:
     repo: "{{ nginx_module.address }}"
@@ -42,29 +34,5 @@
     clone: yes
     update: yes
 
-- name: auto-apt run ./configure
-  template:
-    src: auto-apt_nginx.j2
-    dest: "{{ role_path }}/files/auto-apt_nginx.sh"
-    mode: 0775
-  register: _auto_apt_nginx
-  delegate_to: localhost
-
-- debug: var='_auto_apt_nginx'
-
-- name: Run Created Shell Script
-  script: files/auto-apt_nginx.sh
-  args:
-    chdir: "/tmp/nginx/{{ nginx_version }}"
-  register: _auto_apt_nginx_sh
-
-- debug: var=_auto_apt_nginx_sh
-
-- name: Delete the NGINX Shell Script
-  file:
-    path: files/auto-apt_nginx.sh
-    state: absent
-  register: _delete_apt_nginx_sh
-  delegate_to: localhost
-
-- debug: var=_delete_apt_nginx_sh
+- name: Run NGINX Steps
+  include_tasks: nginx.yml

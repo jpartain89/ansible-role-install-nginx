@@ -27,11 +27,4 @@
 
 - debug: var=_auto_apt_pcre_sh
 
-- name: Delete the PCRE Shell Script
-  file:
-    path: files/auto-apt_pcre.sh
-    state: absent
-  register: _delete_apt_pcre_sh
-  delegate_to: localhost
-
-- debug: var=_delete_apt_pcre_sh
+- handlers: Delete OpenSSL Script

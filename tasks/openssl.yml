@@ -27,11 +27,4 @@
 
 - debug: var=_auto_apt_openssl_sh
 
-- name: Delete the OpenSSL Shell Script
-  file:
-    path: files/auto-apt_openssl.sh
-    state: absent
-  register: _delete_apt_openssl_sh
-  delegate_to: localhost
-
-- debug: var=_delete_apt_openssl_sh
+- handlers: Delete OpenSSL Script
