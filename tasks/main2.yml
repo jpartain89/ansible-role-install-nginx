@@ -27,6 +27,8 @@
   command: dpkg -l openssl
   register: openssl_check
 
+- debug: var=openssl_check
+
 - name: Run OpenSSL Steps
   include_tasks: openssl.yml
   when: openssl_check.stdout.rc == 1
