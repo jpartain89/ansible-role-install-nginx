@@ -2,6 +2,6 @@
 # vars file for install-nginx
 
 nginx_url: "http://nginx.org/download/{{ nginx_version }}.tar.gz"
-pcre_url: "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/{{ pcre_version }}.tar.gz"
+pcre_url: "https://ftp.pcre.org/pub/pcre/{{ pcre_version }}.tar.gz"
 zlib_url: "http://zlib.net/{{ zlib_version }}.tar.gz"
 openssl_url: "http://www.openssl.org/source/{{ openssl_version }}.tar.gz"
