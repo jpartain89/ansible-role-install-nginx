@@ -1,0 +1,33 @@
+---
+# Task list for PCRE
+
+- name: Download PCRE
+  unarchive:
+    src: "{{ pcre_url }}"
+    dest: "/tmp/nginx/{{ pcre_version }}"
+    remote_src: yes
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+
+- name: auto-apt run ./configure | PCRE
+  template:
+    src: auto-apt_pcre.j2
+    dest: "{{ role_path }}/files/auto-apt_pcre.sh"
+    mode: 0775
+  register: _auto_apt_pcre
+  delegate_to: localhost
+
+- debug: var='_auto_apt_pcre'
+
+- name: Run Created Shell Script
+  script: files/auto-apt_pcre.sh
+  args:
+    chdir: "/tmp/nginx/{{ pcre_version }}"
+  register: _auto_apt_pcre_sh
+
+- debug: var=_auto_apt_pcre_sh
+
+- name: Delete the PCRE Shell Script
+  file:
+    path: files/auto-apt_pcre.sh
+    state: absent

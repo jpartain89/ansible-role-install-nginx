@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-cd "/tmp/nginx/nginx-{{ nginx_version }}" &&
+cd "/tmp/nginx/{{ nginx_version }}" &&
 
 sudo auto-apt run ./configure \
     --prefix=/usr/share/nginx \

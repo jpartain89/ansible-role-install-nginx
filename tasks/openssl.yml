@@ -1,0 +1,33 @@
+---
+# Task list for openssl
+
+- name: Download openssl
+  unarchive:
+    src: "{{ openssl_url }}"
+    dest: "/tmp/nginx/{{ openssl_version }}"
+    remote_src: yes
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+
+- name: auto-apt run ./configure | openssl
+  template:
+    src: auto-apt_openssl.j2
+    dest: "{{ role_path }}/files/auto-apt_openssl.sh"
+    mode: 0775
+  register: _auto_apt_openssl
+  delegate_to: localhost
+
+- debug: var='_auto_apt_openssl'
+
+- name: Run Created Shell Script
+  script: files/auto-apt_openssl.sh
+  args:
+    chdir: "/tmp/nginx/{{ openssl_version }}"
+  register: _auto_apt_openssl_sh
+
+- debug: var=_auto_apt_openssl_sh
+
+- name: Delete the openssl Shell Script
+  file:
+    path: files/auto-apt_openssl.sh
+    state: absent

@@ -1,25 +1,14 @@
 ---
 # tasks file for install-nginx
 
-- name: Install Required PreRequisites
+- name: Install Required PreRequisites - apt
   apt:
     name: "{{ item }}"
     state: latest
     update_cache: yes
     cache_valid_time: 32400
   with_items:
-    - pcre2-utils
-    - zlib1g
-    - zlib1g-dbg
-    - zlib1g-dev
-    - openssl
-    - git
-    - gcc
-    - make
-    - libpcre3-dev
-    - libssl-dev
-    - checkinstall
-    - auto-apt
+    - "{{ nginx_prerequisites }}"
 
 - name: Create Master tmp Directory
   file:
@@ -29,10 +18,19 @@
     state: directory
     mode: 0775
 
+- name: Run PCRE Steps
+  include_tasks: pcre.yml
+
+- name: Run ZLIB Steps
+  include_tasks: zlib.yml
+
+- name: Run OpenSSL Steps
+  include_tasks: openssl.yml
+
 - name: Download NGINX Source
   unarchive:
     src: "{{ nginx_url }}"
-    dest: "/tmp/nginx/nginx-{{ nginx_version }}"
+    dest: "/tmp/nginx/{{ nginx_version }}"
     remote_src: yes
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
@@ -46,18 +44,18 @@
 
 - name: auto-apt run ./configure
   template:
-    src: auto-apt.j2
-    dest: "{{ role_path }}/files/auto-apt.sh"
+    src: auto-apt_nginx.j2
+    dest: "{{ role_path }}/files/auto-apt_nginx.sh"
     mode: 0775
-  register: _auto_apt
+  register: _auto_apt_nginx
   delegate_to: localhost
 
-- debug: var='_auto_apt'
+- debug: var='_auto_apt_nginx'
 
 - name: Run Created Shell Script
-  script: files/auto-apt.sh
+  script: files/auto-apt_nginx.sh
   args:
-    chdir: "/tmp/nginx/nginx-{{ nginx_version }}"
-  register: _auto_apt_sh
+    chdir: "/tmp/nginx/{{ nginx_version }}"
+  register: _auto_apt_nginx_sh
 
-- debug: var=_auto_apt_sh
+- debug: var=_auto_apt_nginx_sh
