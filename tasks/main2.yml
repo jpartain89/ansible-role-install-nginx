@@ -1,0 +1,37 @@
+---
+
+- name: Install Required PreRequisites - apt
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+    cache_valid_time: 32400
+  with_items:
+    - "{{ nginx_prerequisites }}"
+
+- name: Create Master tmp Directory
+  file:
+    path: /tmp/nginx
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    state: directory
+    mode: 0775
+
+- name: Run PCRE Steps
+  include_tasks: pcre.yml
+
+- name: Run ZLIB Steps
+  include_tasks: zlib.yml
+
+- name: Run OpenSSL Steps
+  include_tasks: openssl.yml
+
+- name: Git Clone Any Additional Static Modules
+  git:
+    repo: "{{ nginx_module.address }}"
+    dest: "/tmp/nginx/{{ nginx_module.name }}"
+    clone: yes
+    update: yes
+
+- name: Run NGINX Steps
+  include_tasks: nginx.yml
