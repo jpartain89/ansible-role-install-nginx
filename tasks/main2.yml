@@ -24,7 +24,7 @@
   include_tasks: zlib.yml
 
 - name: Check if OpenSSL is Installed
-  shell: if dpkg -l openssl; then echo "true"; fi
+  shell: if dpkg -l openssl >/dev/null; then echo "true"; fi
   register: openssl_check
 
 - debug: var=openssl_check
