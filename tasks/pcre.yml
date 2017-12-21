@@ -4,7 +4,7 @@
 - name: Download PCRE
   unarchive:
     src: "{{ pcre_url }}"
-    dest: "/tmp/nginx/{{ pcre_version }}"
+    dest: "/tmp/nginx"
     remote_src: yes
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
@@ -19,7 +19,7 @@
 
 - debug: var='_auto_apt_pcre'
 
-- name: Run Created Shell Script
+- name: Run Created Shell Script | PCRE
   script: files/auto-apt_pcre.sh
   args:
     chdir: "/tmp/nginx/{{ pcre_version }}"

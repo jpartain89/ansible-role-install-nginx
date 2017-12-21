@@ -4,7 +4,7 @@
 - name: Download ZLIB
   unarchive:
     src: "{{ zlib_url }}"
-    dest: "/tmp/nginx/{{ zlib_version }}"
+    dest: "/tmp/nginx"
     remote_src: yes
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
@@ -19,7 +19,7 @@
 
 - debug: var='_auto_apt_zlib'
 
-- name: Run Created Shell Script
+- name: Run Created Shell Script | ZLIB
   script: files/auto-apt_zlib.sh
   args:
     chdir: "/tmp/nginx/{{ zlib_version }}"

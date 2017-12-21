@@ -30,7 +30,7 @@
 - name: Download NGINX Source
   unarchive:
     src: "{{ nginx_url }}"
-    dest: "/tmp/nginx/{{ nginx_version }}"
+    dest: "/tmp/nginx"
     remote_src: yes
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
