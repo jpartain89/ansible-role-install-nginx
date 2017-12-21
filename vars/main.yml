@@ -1,2 +1,4 @@
 ---
 # vars file for install-nginx
+
+nginx_url: "http://nginx.org/download/nginx-{{ nginx_version }}.tar.gz"
