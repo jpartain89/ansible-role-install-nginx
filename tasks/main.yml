@@ -32,3 +32,32 @@
 - name: Download NGINX Source
   unarchive:
     src: "{{ nginx_url }}"
+    dest: "/tmp/nginx/nginx-{{ nginx_version }}"
+    remote_src: yes
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+
+- name: Git Clone Any Additional Static Modules
+  git:
+    repo: "{{ nginx_module.address }}"
+    dest: "/tmp/nginx/{{ nginx_module.name }}"
+    clone: yes
+    update: yes
+
+- name: auto-apt run ./configure
+  template:
+    src: auto-apt.j2
+    dest: "{{ role_path }}/files/auto-apt.sh"
+    mode: 0775
+  register: _auto_apt
+  delegate_to: localhost
+
+- debug: var='_auto_apt'
+
+- name: Run Created Shell Script
+  script: files/auto-apt.sh
+  args:
+    chdir: "/tmp/nginx/nginx-{{ nginx_version }}"
+  register: _auto_apt_sh
+
+- debug: var=_auto_apt_sh

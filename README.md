@@ -6,12 +6,11 @@ Installs NGINX from Source.
 Role Variables
 --------------
 
+The variable ``nginx_version`` is for JUST the NGINX Version Number, ex:
 
+``nginx_version: 1.13.7``
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+This will be added into the URL for downloading the source code.
 
 Example Playbook
 ----------------
@@ -20,7 +19,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - { role: jpartain89.install-nginx, nginx_version: 1.13.7 }
 
 License
 -------
