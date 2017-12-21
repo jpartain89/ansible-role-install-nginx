@@ -23,8 +23,13 @@
 - name: Run ZLIB Steps
   include_tasks: zlib.yml
 
+- name: Check if OpenSSL is Installed
+  command: dpkg -l openssl
+  register: openssl_check
+
 - name: Run OpenSSL Steps
   include_tasks: openssl.yml
+  when: openssl_check.stdout.rc == 1
 
 - name: Git Clone Any Additional Static Modules
   git:
