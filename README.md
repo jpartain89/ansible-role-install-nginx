@@ -1,6 +1,10 @@
 Install NGINX
 =========
 
+| **Travis-CI** |
+| ---- |
+| [![Build Status](https://travis-ci.org/jpartain89/ansible-role-install-nginx.svg?branch=master)](https://travis-ci.org/jpartain89/ansible-role-install-nginx) |
+
 Installs NGINX from Source.
 
 Role Variables
