@@ -24,7 +24,6 @@
   args:
     chdir: "/tmp/nginx/{{ nginx_version }}"
   register: _auto_apt_nginx_sh
+  notify: Delete OpenSSL Script
 
 - debug: var=_auto_apt_nginx_sh
-
-- handlers: Delete OpenSSL Script

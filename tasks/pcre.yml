@@ -24,7 +24,6 @@
   args:
     chdir: "/tmp/nginx/{{ pcre_version }}"
   register: _auto_apt_pcre_sh
+  notify: Delete OpenSSL Script
 
 - debug: var=_auto_apt_pcre_sh
-
-- handlers: Delete OpenSSL Script
