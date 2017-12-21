@@ -42,3 +42,4 @@
 
 - name: Run NGINX Steps
   include_tasks: nginx.yml
+  notify: Delete All tmp Files

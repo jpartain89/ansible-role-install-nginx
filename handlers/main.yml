@@ -23,3 +23,7 @@
     path: files/auto-apt_nginx.sh
     state: absent
   delegate_to: localhost
+
+- name: Delete All tmp Files
+  shell: "rm -rf /tmp/nginx"
+  become: true
