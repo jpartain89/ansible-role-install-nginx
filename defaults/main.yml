@@ -1,0 +1,20 @@
+---
+# defaults file for install-nginx
+
+nginx_version: "nginx-1.13.7"
+pcre_version: "pcre-8.41"
+zlib_version: "zlib-1.2.11"
+openssl_version: "openssl-1.1.0f"
+
+nginx_prerequisites:
+  - build-essential
+  - git
+  - gcc
+  - make
+  - libpcre3-dev
+  - libssl-dev
+  - checkinstall
+  - auto-apt
+
+nginx_module:
+  - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git"}
