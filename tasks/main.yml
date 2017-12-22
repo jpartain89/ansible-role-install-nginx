@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 
 - name: Install Required PreRequisites
   apt:
@@ -31,3 +32,11 @@
 - name: Download NGINX Source
   unarchive:
     src: "{{ nginx_url }}"
+=======
+# tasks file for install-nginx
+
+- name: Running Main2 for sudoing Everything
+  include_tasks: main2.yml
+  become: true
+  remote_user: "{{ ansible_user_id }}"
+>>>>>>> 9fb25bfd330909e9e1a3f1f74045a97c2ebdaab0
