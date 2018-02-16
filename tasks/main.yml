@@ -1,5 +1,4 @@
 ---
-# tasks file for install-nginx
 
 - name: Running Main2 for sudoing Everything
   include_tasks: main2.yml
