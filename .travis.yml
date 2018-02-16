@@ -6,7 +6,7 @@ before_install:
 - sudo apt-get update
 - sudo apt-get install -y python-apt python
 install:
-- sudo -H pip install --upgrade pip setup-tools ansible
+- sudo -H pip install --upgrade pip ansible
 - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 script:
 - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
