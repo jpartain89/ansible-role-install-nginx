@@ -1,12 +1,7 @@
 ---
-<<<<<<< HEAD
-
-nginx_url: "http://nginx.org/download/nginx-{{ nginx_version }}.tar.gz"
-=======
 # vars file for install-nginx
 
 nginx_url: "http://nginx.org/download/{{ nginx_version }}.tar.gz"
 pcre_url: "https://ftp.pcre.org/pub/pcre/{{ pcre_version }}.tar.gz"
 zlib_url: "http://zlib.net/{{ zlib_version }}.tar.gz"
 openssl_url: "http://www.openssl.org/source/{{ openssl_version }}.tar.gz"
->>>>>>> 9fb25bfd330909e9e1a3f1f74045a97c2ebdaab0

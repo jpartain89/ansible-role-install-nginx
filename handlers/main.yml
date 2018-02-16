@@ -27,3 +27,7 @@
 - name: Delete All tmp Files
   shell: "rm -rf /tmp/nginx"
   become: true
+
+- name: Reload NGINX
+  shell: '/etc/init.d/nginx upgrade_nginx'
+  become: true

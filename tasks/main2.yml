@@ -32,6 +32,7 @@
 - name: Run OpenSSL Steps
   include_tasks: openssl.yml
   when: openssl_check.stdout != "true"
+  notify: Delete OpenSSL Script
 
 - name: Git Clone Any Additional Static Modules
   git:

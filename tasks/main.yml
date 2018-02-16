@@ -1,42 +1,6 @@
 ---
-<<<<<<< HEAD
-
-- name: Install Required PreRequisites
-  apt:
-    name: "{{ item }}"
-    state: latest
-    update_cache: yes
-    cache_valid_time: 32400
-  with_items:
-    - pcre2-utils
-    - zlib1g
-    - zlib1g-dbg
-    - zlib1g-dev
-    - openssl
-    - git
-    - gcc
-    - make
-    - libpcre3-dev
-    - libssl-dev
-    - checkinstall
-    - auto-apt
-
-- name: Create Master tmp Directory
-  file:
-    path: /tmp/nginx
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
-    state: directory
-    mode: 0775
-
-- name: Download NGINX Source
-  unarchive:
-    src: "{{ nginx_url }}"
-=======
-# tasks file for install-nginx
 
 - name: Running Main2 for sudoing Everything
   include_tasks: main2.yml
   become: true
   remote_user: "{{ ansible_user_id }}"
->>>>>>> 9fb25bfd330909e9e1a3f1f74045a97c2ebdaab0
