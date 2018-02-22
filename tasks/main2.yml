@@ -51,7 +51,7 @@
   command: 'dpkg -l openssl'
   args:
     warn: no
-  regiser: _openssl_installed
+  register: _openssl_installed
   failed_when: _openssl_installed.rc > 1
   changed_when: no
 
