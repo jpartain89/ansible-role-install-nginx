@@ -16,6 +16,7 @@ nginx_prerequisites:
   - checkinstall
   - auto-apt
   - libgd3
+  - libgdbm3
 
 nginx_module:
   - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git"}
