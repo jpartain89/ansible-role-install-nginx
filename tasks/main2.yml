@@ -17,6 +17,16 @@
     state: directory
     mode: 0775
 
+- name: Create NGINX Directories
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    state: directory
+    mode: 0775
+  with_items:
+    - "/usr/lib/nginx/modules"
+
 - name: Test if PCRE is Installed
   command: 'dpkg -l pcre'
   args:
