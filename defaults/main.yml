@@ -53,3 +53,6 @@ nginx_prerequisites:
   - libssl-dev
   - checkinstall
   - auto-apt
+  - geoip-bin
+  - geoip-database
+  - geoip-dbgs
