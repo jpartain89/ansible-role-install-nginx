@@ -55,4 +55,4 @@ nginx_prerequisites:
   - auto-apt
   - geoip-bin
   - geoip-database
-  - geoip-dbgs
+  - geoip-dbg
