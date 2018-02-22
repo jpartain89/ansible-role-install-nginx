@@ -16,7 +16,7 @@ sudo auto-apt run ./configure \
     --http-proxy-temp-path={{ nginx_script.http_proxy_temp_path }} \
     --http-scgi-temp-path={{ nginx_script.http_scgi_temp_path }} \
     --http-uwsgi-temp-path={{ nginx_script.http_uwsgi_temp_path }} \
-    {% for a,with in nginx_script.with.iteritems() %}
+    {% for with in nginx_script.with %}
     --with-{{ a.with }} \
     {% endfor %}
     {% if nginx_module is defined %}
