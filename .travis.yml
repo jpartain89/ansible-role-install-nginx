@@ -4,10 +4,10 @@ dist: trusty
 
 before_install:
 - sudo apt-get update
-- sudo apt-get install -y python-apt python urllib3[secure]
+- sudo apt-get install -y python-apt python
 
 install:
-- sudo -H pip install --upgrade pip ansible
+- sudo -H pip install --upgrade pip ansible urllib3[secure]
 - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 script:
 - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
