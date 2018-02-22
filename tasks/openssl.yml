@@ -9,10 +9,10 @@
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
 
-- name: auto-apt run ./configure | OpenSSL
+- name: Create auto-apt_openssl Script from Template | OpenSSL
   template:
     src: auto-apt_openssl.j2
-    dest: "{{ role_path }}/files/auto-apt_openssl.sh"
+    dest: "/tmp/nginx/auto-apt_openssl.sh"
     mode: 0775
   register: _auto_apt_openssl
   delegate_to: localhost
@@ -20,9 +20,7 @@
 - debug: var='_auto_apt_openssl'
 
 - name: Run Created Shell Script | OpenSSL
-  script: files/auto-apt_openssl.sh
-  args:
-    chdir: "/tmp/nginx/{{ openssl_version }}"
+  script: /tmp/nginx/auto-apt_openssl.sh
   register: _auto_apt_openssl_sh
   notify: Delete OpenSSL Script
 

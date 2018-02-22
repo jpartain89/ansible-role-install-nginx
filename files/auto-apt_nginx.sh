@@ -36,9 +36,9 @@ sudo auto-apt run ./configure \
     --with-stream_ssl_module \
     --with-mail=dynamic \
     --with-mail_ssl_module \
-            --add-module=../ngx_http_auth_pam_module \
-        --add-module=../ngx-fancyindex \
-        --with-http_v2_module
+    --add-module=../ngx_http_auth_pam_module \
+    --add-module=../ngx-fancyindex \
+    --with-http_v2_module
 
 sudo make &&
 sudo checkinstall -y \

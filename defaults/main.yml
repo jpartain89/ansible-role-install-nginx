@@ -17,6 +17,8 @@ nginx_prerequisites:
   - auto-apt
   - libgd3
   - libgdbm3
+  - libgdk-pixbuf2.0-0
+  - libgdk-pixbuf2.0-common
 
 nginx_module:
   - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git"}
