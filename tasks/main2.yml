@@ -26,6 +26,9 @@
     mode: 0775
   with_items:
     - "/usr/lib/nginx/modules"
+    - "/var/log/nginx"
+    - "/var/cache/nginx/tmp_proxy"
+    - "/var/lib/nginx/body"
 
 - name: Test if PCRE is Installed
   command: 'dpkg -l pcre'
