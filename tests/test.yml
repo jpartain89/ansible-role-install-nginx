@@ -2,5 +2,7 @@
 - hosts: localhost
   remote_user: root
   become: true
+  include_vars:
+    - ./vars.yml
   roles:
     - ansible-role-install-nginx
