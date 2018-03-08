@@ -3,39 +3,22 @@
 cd "/tmp/nginx/{{ nginx_version }}" &&
 
 sudo auto-apt run ./configure \
-    --prefix=/usr/share/nginx \
-    --sbin-path=/usr/sbin/nginx \
-    --conf-path=/etc/nginx/nginx.conf \
-    --http-log-path=/var/log/nginx/access.log \
-    --error-log-path=/var/log/nginx/error.log \
-    --lock-path=/var/lock/nginx.lock \
-    --pid-path=/run/nginx.pid \
-    --modules-path=/usr/lib/nginx/modules \
-    --http-client-body-temp-path=/var/lib/nginx/body \
-    --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
-    --http-proxy-temp-path=/var/lib/nginx/proxy \
-    --http-scgi-temp-path=/var/lib/nginx/scgi \
-    --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
-    --with-debug \
-    --with-pcre-jit \
-    --with-http_ssl_module \
-    --with-http_stub_status_module \
-    --with-http_realip_module \
-    --with-http_auth_request_module \
-    --with-http_dav_module \
-    --with-http_slice_module \
-    --with-threads \
-    --with-http_addition_module \
-    --with-http_geoip_module=dynamic \
-    --with-http_gunzip_module \
-    --with-http_gzip_static_module \
-    --with-http_image_filter_module=dynamic \
-    --with-http_sub_module \
-    --with-http_xslt_module=dynamic \
-    --with-stream=dynamic \
-    --with-stream_ssl_module \
-    --with-mail=dynamic \
-    --with-mail_ssl_module \
+    --prefix={{ nginx_script.prefix }} \
+    --sbin-path={{ nginx_script.sbin_path }} \
+    --conf-path={{ nginx_script.conf_path }} \
+    --http-log-path={{ nginx_script.http_log_path }} \
+    --error-log-path={{ nginx_script.error_log_path }} \
+    --lock-path={{ nginx_script.lock_path }} \
+    --pid-path={{ nginx_script.pid_path }} \
+    --modules-path={{ nginx_script.modules_path }} \
+    --http-client-body-temp-path={{ nginx_script.http_client_body_temp_path }} \
+    --http-fastcgi-temp-path={{ nginx_script.http_fastcgi_temp_path }} \
+    --http-proxy-temp-path={{ nginx_script.http_proxy_temp_path }} \
+    --http-scgi-temp-path={{ nginx_script.http_scgi_temp_path }} \
+    --http-uwsgi-temp-path={{ nginx_script.http_uwsgi_temp_path }} \
+    {% for with in nginx_script.with %}
+    --with-{{ with }} \
+    {% endfor %}
     {% if nginx_module is defined %}
     {% for name in nginx_module %}
     --add-module=../{{ name.name }} \

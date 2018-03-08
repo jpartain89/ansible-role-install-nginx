@@ -12,9 +12,9 @@ Role Variables
 
 The variable ``nginx_version`` is for JUST the NGINX Version Number, ex:
 
-``nginx_version: 1.13.7``
+``nginx_version: 1.13.9``
 
-This will be added into the URL for downloading the source code.
+This will be added into the URL for downloading the source code, as well as the shell script that loops in all of the ``configure`` lines, as well as ``make`` and ``checkinstall``.
 
 Example Playbook
 ----------------
@@ -23,7 +23,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: jpartain89.install-nginx, nginx_version: 1.13.7 }
+         - { role: jpartain89.install-nginx, nginx_version: 1.13.9 }
 
 License
 -------
