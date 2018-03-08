@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-cd "/tmp/nginx/${1}" &&
+cd "/tmp/nginx/nginx-1.13.9" &&
 
 sudo auto-apt run ./configure \
     --prefix=/usr/share/nginx \
@@ -44,5 +44,5 @@ sudo make &&
 sudo checkinstall -y \
     --maintainer root \
     --pkgname nginx \
-    --pkgversion nginx-1.13.7 \
+    --pkgversion nginx-1.13.9 \
     --pakdir /tmp/nginx
