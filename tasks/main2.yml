@@ -17,6 +17,15 @@
     state: directory
     mode: 0775
 
+- name: Create Master tmp Directory
+  file:
+    path: /tmp/nginx
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    state: directory
+    mode: 0775
+  delegate_to: localhost
+
 - name: Create NGINX Directories
   file:
     path: "{{ item }}"
