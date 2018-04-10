@@ -25,9 +25,11 @@
   delegate_to: localhost
 
 - name: Delete All tmp Files
-  shell: "rm -rf /tmp/nginx"
+  file:
+    path: /tmp/nginx
+    state: absent
   become: true
 
 - name: Reload NGINX
-  shell: '/etc/init.d/nginx upgrade_nginx'
+  command: '/etc/init.d/nginx upgrade_nginx'
   become: true

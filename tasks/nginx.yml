@@ -22,6 +22,6 @@
 - name: Run Created Shell Script | NGINX
   script: "/tmp/nginx/auto-apt_nginx.sh"
   register: _auto_apt_nginx_sh
-  notify: Delete OpenSSL Script
+  notify: Delete All tmp Files
 
 - debug: var=_auto_apt_nginx_sh

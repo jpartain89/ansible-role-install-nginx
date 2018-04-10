@@ -1,6 +1,11 @@
 ---
 # defaults file for install-nginx
 
+nginx_version: "nginx-1.13.11"
+pcre_version: "pcre-8.41"
+zlib_version: "zlib-1.2.11"
+openssl_version: "openssl-1.1.0f"
+
 nginx_url: "http://nginx.org/download/{{ nginx_version }}.tar.gz"
 pcre_url: "https://ftp.pcre.org/pub/pcre/{{ pcre_version }}.tar.gz"
 zlib_url: "http://zlib.net/{{ zlib_version }}.tar.gz"
