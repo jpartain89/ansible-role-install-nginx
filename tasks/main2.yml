@@ -17,7 +17,7 @@
     state: directory
     mode: 0775
 
-- name: Create Master tmp Directory
+- name: Create Master tmp Directory | Localhost
   file:
     path: /tmp/nginx
     owner: "{{ ansible_user_uid }}"
@@ -25,6 +25,11 @@
     state: directory
     mode: 0775
   delegate_to: localhost
+
+- name: Move Existing NGINX Config Directory
+  command: 'mv /etc/nginx /etc/nginx.bak'
+  register: _nginx_move
+  failed_when: false
 
 - name: Create NGINX Directories
   file:
@@ -96,3 +101,7 @@
 - name: Run NGINX Steps
   include_tasks: nginx.yml
   notify: Delete All tmp Files
+
+- name: Move NGINX.bak Back Into Place
+  command: 'mv /etc/nginx.bak /etc/nginx'
+  when: _nginx_move != failed
