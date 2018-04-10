@@ -26,10 +26,15 @@
     mode: 0775
   delegate_to: localhost
 
+- name: Confirm /etc/nginx Exists
+  stat:
+    path: /etc/nginx
+  register: _nginx_config
+
 - name: Move Existing NGINX Config Directory
   command: 'mv /etc/nginx /etc/nginx.bak'
   register: _nginx_move
-  failed_when: false
+  when: _nginx_config.stat.exists
 
 - name: Create NGINX Directories
   file:
@@ -104,4 +109,4 @@
 
 - name: Move NGINX.bak Back Into Place
   command: 'mv /etc/nginx.bak /etc/nginx'
-  when: _nginx_move != failed
+  when: _nginx_config.stat.exists
