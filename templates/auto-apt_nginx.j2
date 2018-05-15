@@ -19,9 +19,21 @@ sudo auto-apt run ./configure \
     {% for with in nginx_script.with %}
     --with-{{ with }} \
     {% endfor %}
+    {% if nginx_script.extra_with is defined %}
+    {% for with in nginx_script.extra_with %}
+    --with-{{ with }} \
+    {% endfor %}{% endif %}
     {% if nginx_module is defined %}
     {% for name in nginx_module %}
     --add-module=../{{ name.name }} \
+    {% endfor %}{% endif %}
+    {% if nginx_alt_module is defined %}
+    {% for name in nginx_alt_module %}
+    --add-module={{ name }} \
+    {% endfor %}{% endif %}
+    {% if nginx_dynamic_module is defined %}
+    {% for name in nginx_dynamic_module %}
+    --add-module={{ name }} \
     {% endfor %}{% endif %}
     --with-http_v2_module
 

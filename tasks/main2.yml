@@ -100,8 +100,11 @@
     dest: "/tmp/nginx/{{ item.name }}"
     clone: yes
     update: yes
+    recursive: yes
   with_items:
     - "{{ nginx_module }}"
+    - "{{ nginx_dynamic_module | default(omit) }}"
+  failed_when: false
 
 - name: Run NGINX Steps
   include_tasks: nginx.yml
