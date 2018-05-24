@@ -1,5 +1,24 @@
 ---
 
+pcre_version: "pcre-8.41"
+zlib_version: "zlib-1.2.11"
+openssl_version: "openssl-1.1.0f"
+
+nginx_module:
+  - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git" }
+  - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }
+  - { name: "nginx-dav-ext-module", address: "https://github.com/arut/nginx-dav-ext-module.git"}
+
+nginx_dynamic_module_2:
+  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs", conf_loc: "nginx" }
+
+nginx_alt_module:
+  - "$(/home/jpartain89/test/bin/passenger-config --nginx-addon-dir)"
+
+nginx_script:
+  extra_with:
+    - http_dav_module
+
 nginx_script:
   prefix: /usr/share/nginx
   sbin_path: /usr/sbin/nginx

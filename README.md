@@ -5,16 +5,18 @@ Install NGINX
 | ---- |
 | [![Build Status](https://travis-ci.org/jpartain89/ansible-role-install-nginx.svg?branch=master)](https://travis-ci.org/jpartain89/ansible-role-install-nginx) |
 
-Installs NGINX from Source.
+Installs NGINX and Dynamic Modules (both modules that install during config and after) from Source
 
 Role Variables
 --------------
 
 The variable ``nginx_version`` is for JUST the NGINX Version Number, ex:
 
-``nginx_version: 1.13.9``
+``nginx_version: 1.14.0``
 
 This will be added into the URL for downloading the source code, as well as the shell script that loops in all of the ``configure`` lines, as well as ``make`` and ``checkinstall``.
+
+Please check out the `defaults/main.yml` file for the more complete list of variables.
 
 Example Playbook
 ----------------
@@ -23,14 +25,14 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: jpartain89.install-nginx, nginx_version: 1.13.9 }
+         - { role: jpartain89.install-nginx, nginx_version: 1.14.0 }
 
 License
 -------
 
-BSD
+GPLv3
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Justin Partain and JPCDI, github.com/jpartain89

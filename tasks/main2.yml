@@ -48,6 +48,7 @@
     - "/var/log/nginx"
     - "/var/cache/nginx/tmp_proxy"
     - "/var/lib/nginx/body"
+    - "/etc/nginx/modules-available"
 
 - name: Test if PCRE is Installed
   command: 'dpkg -l pcre'
@@ -109,6 +110,11 @@
 - name: Run NGINX Steps
   include_tasks: nginx.yml
   notify: Delete All tmp Files
+
+- name: Run NGINX Dynamic Module Steps
+  include_tasks: dynamic.yml
+  notify: Delete All tmp Files
+  when: nginx_dynamic_module_2 is defined
 
 - name: Move NGINX.bak Back Into Place
   command: 'mv /etc/nginx.bak /etc/nginx'
