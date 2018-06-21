@@ -1,6 +1,157 @@
 ---
 
-- name: Running Main2 for sudoing Everything
-  include_tasks: main2.yml
+- name: Install Required PreRequisites - apt
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+    cache_valid_time: 32400
+  with_items:
+    - "{{ nginx_prerequisites }}"
   become: true
-  remote_user: "{{ ansible_user_id }}"
+
+- name: Create Master tmp Directory
+  file:
+    path: /tmp/nginx
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    state: directory
+    mode: 0775
+  become: true
+
+- name: Create Master tmp Directory | Localhost
+  file:
+    path: /tmp/nginx
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    state: directory
+    mode: 0775
+  delegate_to: localhost
+  become: true
+
+- name: Confirm /etc/nginx Exists
+  stat:
+    path: /etc/nginx
+  register: _nginx_config
+  become: true
+
+- debug: var=_nginx_config
+
+- name: Move Existing NGINX Config Directory
+  command: 'mv /etc/nginx {{ ansible_user_dir }}/nginx.bak'
+  register: _nginx_move
+  when:
+    - _nginx_config.stat.exists
+    - not _nginx_config.stat.islnk
+  become: true
+  failed_when: false
+
+- name: Remove NGINX Config Link
+  file:
+    path: "/etc/nginx"
+    state: absent
+  become: true
+  when:
+    - _nginx_config.stat.exists
+    - _nginx_config.stat.islnk
+
+- name: Create NGINX Directories
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    state: directory
+    mode: 0775
+  with_items:
+    - "/usr/lib/nginx/modules"
+    - "/var/log/nginx"
+    - "/var/cache/nginx/tmp_proxy"
+    - "/var/lib/nginx/body"
+    - "/etc/nginx/modules-available"
+  become: true
+
+- name: Test if PCRE is Installed
+  command: 'dpkg -l pcre'
+  args:
+    warn: no
+  register: _pcre_installed
+  failed_when: _pcre_installed.rc > 1
+  changed_when: no
+  become: true
+
+- debug: var=_pcre_installed
+
+- name: Run PCRE Steps
+  include_tasks: pcre.yml
+  when: _pcre_installed.rc != 0
+  notify: Delete PCRE Script
+  become: true
+
+- name: Test if ZLIB is Installed
+  command: 'dpkg -l zlib'
+  args:
+    warn: no
+  register: _zlib_installed
+  failed_when: _zlib_installed.rc > 1
+  changed_when: no
+  become: true
+
+- debug: var=_zlib_installed
+
+- name: Run ZLIB Steps
+  include_tasks: zlib.yml
+  when: _zlib_installed.rc != 0
+  notify: Delete ZLIB Script
+  become: true
+
+- name: Test if OpenSSL is Installed
+  command: 'dpkg -l openssl'
+  args:
+    warn: no
+  register: _openssl_installed
+  failed_when: _openssl_installed.rc > 1
+  changed_when: no
+  become: true
+
+- debug: var=_openssl_installed
+
+- name: Run OpenSSL Steps
+  include_tasks: openssl.yml
+  when: _openssl_installed.rc != 0
+  notify: Delete OpenSSL Script
+  become: true
+
+- name: Git Clone Any Additional Static Modules
+  git:
+    repo: "{{ item.address }}"
+    dest: "/tmp/nginx/{{ item.name }}"
+    clone: yes
+    update: yes
+    recursive: yes
+  with_items:
+    - "{{ nginx_module }}"
+  failed_when: false
+  become: true
+
+- name: Run NGINX Steps
+  include_tasks: nginx.yml
+  notify: Delete All tmp Files
+  become: true
+
+- name: Move NGINX.bak Back Into Place
+  command: 'mv /etc/nginx.bak /etc/nginx'
+  when:
+    - _nginx_config.stat.exists
+    - not _nginx_config.stat.islnk
+
+- name: ReLink NGINX
+  file:
+    src: "{{ nginx_config_loc }}"
+    dest: /etc/nginx
+    state: link
+    owner: root
+    group: root
+  become: true
+  when:
+    - _nginx_config.stat.exists
+    - _nginx_config.stat.islnk
