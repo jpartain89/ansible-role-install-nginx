@@ -38,7 +38,7 @@
 - debug: var=_nginx_config
 
 - name: Move Existing NGINX Config Directory
-  command: 'mv /etc/nginx {{ ansible_user_dir }}/nginx.bak'
+  command: 'mv /etc/nginx /etc/nginx.bak'
   register: _nginx_move
   when:
     - _nginx_config.stat.exists
@@ -143,6 +143,7 @@
   when:
     - _nginx_config.stat.exists
     - not _nginx_config.stat.islnk
+  failed_when: false
 
 - name: ReLink NGINX
   file:
@@ -155,3 +156,4 @@
   when:
     - _nginx_config.stat.exists
     - _nginx_config.stat.islnk
+  failed_when: false
