@@ -35,8 +35,6 @@
   register: _nginx_config
   become: true
 
-- debug: var=_nginx_config
-
 - name: Move Existing NGINX Config Directory
   command: 'mv /etc/nginx /etc/nginx.bak'
   register: _nginx_move
@@ -79,8 +77,6 @@
   changed_when: no
   become: true
 
-- debug: var=_pcre_installed
-
 - name: Run PCRE Steps
   include_tasks: pcre.yml
   when: _pcre_installed.rc != 0
@@ -96,8 +92,6 @@
   changed_when: no
   become: true
 
-- debug: var=_zlib_installed
-
 - name: Run ZLIB Steps
   include_tasks: zlib.yml
   when: _zlib_installed.rc != 0
@@ -112,8 +106,6 @@
   failed_when: _openssl_installed.rc > 1
   changed_when: no
   become: true
-
-- debug: var=_openssl_installed
 
 - name: Run OpenSSL Steps
   include_tasks: openssl.yml
