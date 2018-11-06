@@ -8,6 +8,7 @@
     remote_src: yes
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
+  become: true
 
 - name: Create auto-apt_openssl Script from Template | OpenSSL
   template:
@@ -16,8 +17,10 @@
     mode: 0775
   register: _auto_apt_openssl
   delegate_to: localhost
+  become: true
 
 - name: Run Created Shell Script | OpenSSL
   script: /tmp/nginx/auto-apt_openssl.sh
   register: _auto_apt_openssl_sh
   notify: Delete OpenSSL Script
+  become: true

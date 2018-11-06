@@ -8,6 +8,7 @@
     remote_src: yes
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
+  become: true
 
 - name: Create auto-apt_nginx Script from Template | NGINX
   template:
@@ -16,8 +17,10 @@
     mode: 0775
   register: _auto_apt_nginx
   delegate_to: localhost
+  become: true
 
 - name: Run Created Shell Script | NGINX
   script: "/tmp/nginx/auto-apt_nginx.sh"
   register: _auto_apt_nginx_sh
   notify: Delete All tmp Files
+  become: true

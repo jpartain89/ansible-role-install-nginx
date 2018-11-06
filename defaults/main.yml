@@ -36,7 +36,6 @@ nginx_script:
     - 'http_slice_module'
     - 'threads'
     - 'http_addition_module'
-    - 'http_geoip_module=dynamic'
     - 'http_gunzip_module'
     - 'http_gzip_static_module'
     - 'http_sub_module'
@@ -54,10 +53,22 @@ nginx_dynamic_module_2:
 
 nginx_prerequisites:
   - build-essential
+  - curl
   - git
   - gcc
   - make
   - libpcre3-dev
+  - libpcre++-dev
   - libssl-dev
   - checkinstall
   - auto-apt
+  - zlib1g-dev
+  - libbz2-dev
+  - libxslt1-dev
+  - libxml2-dev
+  - libgd2-xpm-dev
+  - libgeoip-dev
+  - libgoogle-perftools-dev
+  - libperl-dev
+  - libssl-dev
+  - libcurl4-openssl-dev
