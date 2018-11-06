@@ -8,6 +8,7 @@
     remote_src: yes
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
+  become: true
 
 - name: Create auto-apt_pcre Script from Template | PCRE
   template:
@@ -16,8 +17,11 @@
     mode: 0775
   register: _auto_apt_pcre
   delegate_to: localhost
+  become: true
 
 - name: Run Created Shell Script | PCRE
   script: "/tmp/nginx/auto-apt_pcre.sh"
   register: _auto_apt_pcre_sh
   notify: Delete OpenSSL Script
+  become: true
+  notify: Delete PCRE Script
