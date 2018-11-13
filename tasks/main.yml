@@ -120,11 +120,12 @@
 - name: Run NGINX Steps
   include_tasks: nginx.yml
 
-- name: Move NGINX.bak Back Into Place
+- name: Move NGINX Config Directory Back
   command: 'mv /etc/nginx.bak /etc/nginx'
   when:
     - _nginx_config.stat.exists
     - not _nginx_config.stat.islnk
+  become: true
   failed_when: false
 
 - name: ReLink NGINX
@@ -132,8 +133,8 @@
     src: "{{ nginx_config_loc }}"
     dest: /etc/nginx
     state: link
-    owner: root
-    group: root
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
   become: true
   when:
     - _nginx_config.stat.exists
