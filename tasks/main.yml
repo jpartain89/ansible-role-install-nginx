@@ -72,17 +72,11 @@
 
 - name: Create NGINX Directories
   file:
-    path: "{{ item }}"
+    path: "{{ nginx_directories }}"
     owner: root
     group: root
     state: directory
     mode: 0775
-  with_items:
-    - "/usr/lib/nginx/modules"
-    - "/var/log/nginx"
-    - "/var/cache/nginx/tmp_proxy"
-    - "/var/lib/nginx/body"
-    - "/etc/nginx/modules-available"
   become: true
 
 - name: Test if PCRE is Installed
