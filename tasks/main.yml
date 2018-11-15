@@ -29,9 +29,6 @@
   become: true
   when: nginx_apt_extras
 
-- name: debug
-  debug: var=_nginx_apt_extras_tmp
-
 - name: Run Downloaded Scripts
   command: 'bash "{{ item.dest }}"'
   become: true
