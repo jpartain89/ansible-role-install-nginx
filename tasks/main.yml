@@ -28,7 +28,7 @@
 #  when: nginx_apt_extras
 
 - name: Run Downloaded Scripts
-  command: 'wget -O - {{ nginx_apt_extras }} | bash -'
+  command: 'wget -O - "{{ nginx_apt_extras }}" | bash -'
   become: true
   when: nginx_apt_extras
 
