@@ -6,7 +6,7 @@ nginx_extra_prerequisites:
   - php7.0-fpm
 
 nginx_apt_extras:
-  - "packages.sury.org/php/README.txt"
+  - "https://packages.sury.org/php/README.txt"
 
 nginx_directories:
   - "/usr/lib/nginx/modules"
