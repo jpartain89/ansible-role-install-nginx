@@ -21,16 +21,20 @@
 
 - name: Download and Run Adding Any Apt Repos
   get_url:
-    url: "{{ nginx_apt_extras }}"
+    url: "{{ item }}"
     dest: "/tmp/nginx/"
+  with_items:
+    - "{{ nginx_apt_extras }}"
   register: _nginx_apt_extras_tmp
   become: true
   when: nginx_apt_extras
 
 - name: Run Downloaded Scripts
-  command: 'bash {{ _nginx_apt_extras_tmp.dest }}'
+  command: 'bash "{{ item.dest }}"'
   become: true
   when: nginx_apt_extras
+  with_items:
+    - "{{ _nginx_apt_extras_tmp.results }}"
 
 - name: Install Required PreRequisites - apt
   apt:
