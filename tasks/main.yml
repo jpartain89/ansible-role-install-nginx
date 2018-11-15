@@ -25,12 +25,12 @@
     dest: "/tmp/nginx/"
   register: _nginx_apt_extras_tmp
   become: true
-  when: nginx_apt_extras is defined
+  when: nginx_apt_extras is true
 
 - name: Run Downloaded Scripts
   command: 'bash {{ _nginx_apt_extras_tmp.dest }}'
   become: true
-  when: nginx_apt_extras is defined
+  when: nginx_apt_extras is true
 
 - name: Install Required PreRequisites - apt
   apt:
@@ -47,7 +47,7 @@
     update_cache: yes
     cache_valid_time: 32400
   become: true
-  when: nginx_extra_prerequisites is defined
+  when: nginx_extra_prerequisites is true
 
 - name: Confirm /etc/nginx Exists
   stat:

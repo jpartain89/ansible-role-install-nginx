@@ -53,4 +53,4 @@ nginx_script:
     - 'mail=dynamic'
     - 'mail_ssl_module'
 
-nginx_apt_extras:
+nginx_apt_extras: false
