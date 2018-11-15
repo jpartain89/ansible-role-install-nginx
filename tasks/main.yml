@@ -19,16 +19,16 @@
   delegate_to: localhost
   become: true
 
-#- name: Download and Run Adding Any Apt Repos
-#  get_url:
-#    url: "{{ nginx_apt_extras }}"
-#    dest: "/tmp/nginx/"
-#  register: _nginx_apt_extras_tmp
-#  become: true
-#  when: nginx_apt_extras
+- name: Download and Run Adding Any Apt Repos
+  get_url:
+    url: "{{ nginx_apt_extras }}"
+    dest: "/tmp/nginx/"
+  register: _nginx_apt_extras_tmp
+  become: true
+  when: nginx_apt_extras
 
 - name: Run Downloaded Scripts
-  command: 'wget -O - "{{ nginx_apt_extras }}" | bash -'
+  command: 'bash {{ _nginx_apt_extras_tmp.dest }}'
   become: true
   when: nginx_apt_extras
 
