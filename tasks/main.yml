@@ -1,13 +1,5 @@
 ---
 
-- name: Install Required PreRequisites - apt
-  apt:
-    name: "{{ nginx_prerequisites }}"
-    state: latest
-    update_cache: yes
-    cache_valid_time: 32400
-  become: true
-
 - name: Create Master tmp Directory
   file:
     path: /tmp/nginx
@@ -25,6 +17,33 @@
     state: directory
     mode: 0775
   delegate_to: localhost
+  become: true
+
+- name: Download and Run Adding Any Apt Repos
+  get_url:
+    url: "https://packages.sury.org/php/README.txt"
+    dest: "/tmp/nginx/README.txt"
+  register: _nginx_apt_extras_tmp
+  become: true
+
+- name: Run Downloaded Scripts
+  command: 'bash /tmp/nginx/README.txt'
+  become: true
+
+- name: Install Required PreRequisites - apt
+  apt:
+    name: "{{ nginx_prerequisites }}"
+    state: latest
+    update_cache: yes
+    cache_valid_time: 32400
+  become: true
+
+- name: Install Any Extra Programs Needed
+  apt:
+    name: "{{ nginx_extra_prerequisites }}"
+    state: latest
+    update_cache: yes
+    cache_valid_time: 32400
   become: true
 
 - name: Confirm /etc/nginx Exists
