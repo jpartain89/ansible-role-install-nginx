@@ -21,14 +21,16 @@
 
 - name: Download and Run Adding Any Apt Repos
   get_url:
-    url: "https://packages.sury.org/php/README.txt"
-    dest: "/tmp/nginx/README.txt"
+    url: "{{ nginx_apt_extras }}"
+    dest: "/tmp/nginx/"
   register: _nginx_apt_extras_tmp
   become: true
+  when: nginx_apt_extras is defined
 
 - name: Run Downloaded Scripts
-  command: 'bash /tmp/nginx/README.txt'
+  command: 'bash {{ _nginx_apt_extras_tmp.dest }}'
   become: true
+  when: nginx_apt_extras is defined
 
 - name: Install Required PreRequisites - apt
   apt:
@@ -45,6 +47,7 @@
     update_cache: yes
     cache_valid_time: 32400
   become: true
+  when: nginx_extra_prerequisites is defined
 
 - name: Confirm /etc/nginx Exists
   stat:

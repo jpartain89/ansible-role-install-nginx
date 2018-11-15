@@ -52,3 +52,5 @@ nginx_script:
     - 'stream_ssl_module'
     - 'mail=dynamic'
     - 'mail_ssl_module'
+
+nginx_apt_extras:
