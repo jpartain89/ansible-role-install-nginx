@@ -1,2 +1,15 @@
 ---
 # vars file for install-nginx
+
+nginx_extra_prerequisites:
+  - php7.0
+  - php7.0-fpm
+
+nginx_apt_extras:
+  - "https://packages.sury.org/php/README.txt"
+
+nginx_directories:
+  - "/usr/lib/nginx/modules"
+  - "/var/log/nginx"
+  - "/var/cache/nginx/tmp_proxy"
+  - "/var/lib/nginx/body"
