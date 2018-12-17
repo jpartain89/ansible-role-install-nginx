@@ -8,6 +8,7 @@ nginx_extra_prerequisites:
 nginx_apt_extras: false
 
 nginx_directories:
+  - "/usr/lib/nginx"
   - "/usr/lib/nginx/modules"
   - "/var/log/nginx"
   - "/var/cache/nginx/tmp_proxy"
