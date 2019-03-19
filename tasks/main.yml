@@ -19,22 +19,26 @@
   delegate_to: localhost
   become: true
 
-- name: Download and Run Adding Any Apt Repos
-  get_url:
-    url: "{{ item }}"
-    dest: "/tmp/nginx/"
-  with_items:
-    - "{{ nginx_apt_extras }}"
-  register: _nginx_apt_extras_tmp
-  become: true
-  when: nginx_apt_extras
+#- name: Download and Run Adding Any Apt Repos
+#  get_url:
+#    url: "{{ item }}"
+#    dest: "/tmp/nginx"
+#  loop: "{{ nginx_apt_extras }}"
+#  register: _nginx_apt_extras_tmp
+#  become: true
+#  when: nginx_apt_extras
 
-- name: Run Downloaded Scripts
-  command: 'bash "{{ item.dest }}"'
+#- name: Run Downloaded Scripts
+#  command: 'bash "{{ item.dest }}"'
+#  become: true
+#  when: nginx_apt_extras
+#  loop:
+#    - "{{ _nginx_apt_extras_tmp.results }}"
+
+- name: Run Scripts
+  shell: |
+    wget -O - https://packages.sury.org/php/README.txt  | bash
   become: true
-  when: nginx_apt_extras
-  with_items:
-    - "{{ _nginx_apt_extras_tmp.results }}"
 
 - name: Install Required PreRequisites - apt
   apt:
@@ -51,7 +55,15 @@
     update_cache: yes
     cache_valid_time: 32400
   become: true
-  when: nginx_extra_prerequisites
+
+- name: Install All Programs
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: true
+  loop:
+    - "{{ nginx_extra_prerequisites }}"
+    - "{{ nginx_prerequisites }}"
 
 - name: Confirm /etc/nginx Exists
   stat:
@@ -79,12 +91,13 @@
 
 - name: Create NGINX Directories
   file:
-    path: "{{ nginx_directories }}"
+    path: "{{ item }}"
     owner: root
     group: root
     state: directory
     mode: 0775
   become: true
+  loop: "{{ nginx_directories }}"
 
 - name: Test if PCRE is Installed
   command: 'dpkg -l pcre'
@@ -124,18 +137,6 @@
 - name: Run OpenSSL Steps
   include_tasks: openssl.yml
   when: _openssl_installed.rc != 0
-
-- name: Git Clone Any Additional Static Modules
-  git:
-    repo: "{{ item.address }}"
-    dest: "/tmp/nginx/{{ item.name }}"
-    clone: yes
-    update: yes
-    recursive: yes
-  with_items:
-    - "{{ nginx_module }}"
-  failed_when: false
-  become: true
 
 - name: Run NGINX Steps
   include_tasks: nginx.yml
