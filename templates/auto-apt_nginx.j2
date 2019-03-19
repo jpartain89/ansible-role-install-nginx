@@ -20,27 +20,28 @@ sudo auto-apt run ./configure \
     --http-proxy-temp-path={{ nginx_script.http_proxy_temp_path }} \
     --http-scgi-temp-path={{ nginx_script.http_scgi_temp_path }} \
     --http-uwsgi-temp-path={{ nginx_script.http_uwsgi_temp_path }} \
-    {% for with in nginx_script.with %}
-    --with-{{ with }}{% if name.path is defined %}/{{ name.path }} \
-    {% endif %}{% endfor %}
+    {% for with in nginx_script.with -%}
+    --with-{{ with }} \
+    {% endfor %}
     {% if nginx_script_extra_with is defined %}
     {% for with in nginx_script_extra_with %}
-    --with-{{ with }}{% if name.path is defined %}/{{ name.path }} \
-    {% endif %}{% endfor %}{% endif %}
+    --with-{{ with }} \
+    {% endfor %}{% endif %}
     {% if nginx_module is defined %}
     {% for name in nginx_module %}
-    --add-module=../{{ name.name }}{% if name.path is defined %}/{{ name.path }} \
-    {% endif %}{% endfor %}{% endif %}
+    --add-module=../{{ name.name }}{% if name.path is defined %}/{{ name.path }} {% endif %} \
+    {% endfor %}{% endif %}
     {% if nginx_dynamic_module is defined %}
     {% for name in nginx_dynamic_module %}
-    --add-dynamic-module=../{{ name.name }}{% if name.path is defined %}/{{ name.path }} \
-    {% endif %}{% endfor %}{% endif %}
+    --add-dynamic-module=../{{ name.name }}{% if name.path is defined %}/{{ name.path }} {% endif %} \
+    {% endfor %}{% endif %}
     {% if nginx_alt_module is defined %}
     {% for name in nginx_alt_module %}
     --add-module={{ name }} \
     {% endfor %}{% endif %}
     --with-http_v2_module
 
+sudo make modules &&
 sudo make &&
 sudo checkinstall -y \
     --maintainer {{ ansible_user_id }} \
