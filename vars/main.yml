@@ -1,12 +1,6 @@
 ---
 # vars file for install-nginx
 
-nginx_extra_prerequisites:
-  #- php7.0
-  #- php7.0-fpm
-
-nginx_apt_extras: false
-
 nginx_directories:
   - "/usr/lib/nginx"
   - "/usr/lib/nginx/modules"
