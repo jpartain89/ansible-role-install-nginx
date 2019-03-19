@@ -7,7 +7,7 @@ before_install:
 - sudo apt-get install -qqy python-apt python
 
 install:
-- sudo -H pip install --upgrade urllib3[secure]
+- sudo -H pip install --upgrade urllib3[secure] pyopenssl
 - sudo -H pip install --upgrade pip ansible
 - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 script:
