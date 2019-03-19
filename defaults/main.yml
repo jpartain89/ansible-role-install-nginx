@@ -46,7 +46,7 @@ nginx_script:
     - 'mail_ssl_module'
 
 nginx_module:
-  - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git"}
+  - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git" }
 
 nginx_dynamic_module_2:
   - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs", conf_loc: "nginx" }
@@ -71,3 +71,10 @@ nginx_prerequisites:
   - libperl-dev
   - libssl-dev
   - libcurl4-openssl-dev
+
+#nginx_extra_prerequisites:
+  #- php7.0
+  #- php7.0-fpm
+
+nginx_apt_extras:
+  - 'https://packages.sury.org/php/README.txt'
