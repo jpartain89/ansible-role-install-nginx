@@ -39,6 +39,12 @@
   shell: |
     wget -O - https://packages.sury.org/php/README.txt  | bash
   become: true
+  when: ansible_os_family == "Debian"
+
+- name: Install Surey PHP PPA
+  apt_repository:
+    repo: ppa:ondrej/php
+  when: ansible_os_family == "Ubuntu"
 
 - name: Install Required PreRequisites - apt
   apt:
