@@ -2,6 +2,10 @@
 
 cd "/tmp/nginx/{{ nginx_version }}" &&
 
+echo "#########################################################################"
+echo "################## Running auto-apt run #################################"
+echo "#########################################################################"
+
 sudo auto-apt run ./configure \
     --prefix={{ nginx_script.prefix }} \
     --sbin-path={{ nginx_script.sbin_path }} \
@@ -17,16 +21,20 @@ sudo auto-apt run ./configure \
     --http-scgi-temp-path={{ nginx_script.http_scgi_temp_path }} \
     --http-uwsgi-temp-path={{ nginx_script.http_uwsgi_temp_path }} \
     {% for with in nginx_script.with %}
-    --with-{{ with }} \
-    {% endfor %}
+    --with-{{ with }}{% if name.path is defined %}/{{ name.path }} \
+    {% endif %}{% endfor %}
     {% if nginx_script_extra_with is defined %}
     {% for with in nginx_script_extra_with %}
-    --with-{{ with }} \
-    {% endfor %}{% endif %}
+    --with-{{ with }}{% if name.path is defined %}/{{ name.path }} \
+    {% endif %}{% endfor %}{% endif %}
     {% if nginx_module is defined %}
     {% for name in nginx_module %}
-    --add-module=../{{ name.name }} \
-    {% endfor %}{% endif %}
+    --add-module=../{{ name.name }}{% if name.path is defined %}/{{ name.path }} \
+    {% endif %}{% endfor %}{% endif %}
+    {% if nginx_dynamic_module is defined %}
+    {% for name in nginx_dynamic_module %}
+    --add-dynamic-module=../{{ name.name }}{% if name.path is defined %}/{{ name.path }} \
+    {% endif %}{% endfor %}{% endif %}
     {% if nginx_alt_module is defined %}
     {% for name in nginx_alt_module %}
     --add-module={{ name }} \
