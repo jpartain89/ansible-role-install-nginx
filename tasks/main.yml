@@ -99,44 +99,44 @@
   become: true
   loop: "{{ nginx_directories }}"
 
-- name: Test if PCRE is Installed
-  command: 'dpkg -l pcre'
-  args:
-    warn: no
-  register: _pcre_installed
-  failed_when: _pcre_installed.rc > 1
-  changed_when: no
-  become: true
+#- name: Test if PCRE is Installed
+#  command: 'dpkg -l pcre'
+#  args:
+#    warn: no
+#  register: _pcre_installed
+#  failed_when: _pcre_installed.rc > 1
+#  changed_when: no
+#  become: true
 
 - name: Run PCRE Steps
   include_tasks: pcre.yml
-  when: _pcre_installed.rc != 0
+  #when: _pcre_installed.rc != 0
 
-- name: Test if ZLIB is Installed
-  command: 'dpkg -l zlib'
-  args:
-    warn: no
-  register: _zlib_installed
-  failed_when: _zlib_installed.rc > 1
-  changed_when: no
-  become: true
+#- name: Test if ZLIB is Installed
+#  command: 'dpkg -l zlib'
+#  args:
+#    warn: no
+#  register: _zlib_installed
+#  failed_when: _zlib_installed.rc > 1
+#  changed_when: no
+#  become: true
 
 - name: Run ZLIB Steps
   include_tasks: zlib.yml
-  when: _zlib_installed.rc != 0
+  #when: _zlib_installed.rc != 0
 
-- name: Test if OpenSSL is Installed
-  command: 'dpkg -l openssl'
-  args:
-    warn: no
-  register: _openssl_installed
-  failed_when: _openssl_installed.rc > 1
-  changed_when: no
-  become: true
+#- name: Test if OpenSSL is Installed
+#  command: 'dpkg -l openssl'
+#  args:
+#    warn: no
+#  register: _openssl_installed
+#  failed_when: _openssl_installed.rc > 1
+#  changed_when: no
+#  become: true
 
 - name: Run OpenSSL Steps
   include_tasks: openssl.yml
-  when: _openssl_installed.rc != 0
+  #when: _openssl_installed.rc != 0
 
 - name: Run NGINX Steps
   include_tasks: nginx.yml
