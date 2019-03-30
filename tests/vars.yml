@@ -8,7 +8,6 @@ nginx_module:
   - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git" }
   - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }
   - { name: "nginx-dav-ext-module", address: "https://github.com/arut/nginx-dav-ext-module.git"}
-  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs", conf_loc: "nginx" }
 
 nginx_alt_module: []
 #  - "$(/home/jpartain89/test/bin/passenger-config --nginx-addon-dir)"
