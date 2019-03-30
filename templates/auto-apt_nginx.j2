@@ -41,7 +41,9 @@ sudo auto-apt run ./configure \
     {% endfor %}{% endif %}
     --with-http_v2_module
 
+{% if nginx_dynamic_module is defined %}
 sudo make modules &&
+{% endif %}
 sudo make &&
 sudo checkinstall -y \
     --maintainer {{ ansible_user_id }} \
