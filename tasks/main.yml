@@ -43,13 +43,13 @@
 - name: Add Sury PHP Repo | Debian
   apt_repository:
     repo: "deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main"
-  when: ansible_os_family == "Debian"
+  when: ansible_distribution == "Debian"
 
 - name: Add Sury PHP Repo | Ubuntu
   apt_repository:
     repo: "ppa:ondrej/php"
     state: present
-  when: ansible_os_family == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install Required PreRequisites - apt
   apt:
