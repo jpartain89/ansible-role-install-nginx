@@ -47,12 +47,6 @@ nginx_script:
     - 'mail=dynamic'
     - 'mail_ssl_module'
 
-nginx_module:
-  - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git" }
-
-nginx_dynamic_module:
-  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs", conf_loc: "nginx" }
-
 nginx_prerequisites:
   - build-essential
   - curl
