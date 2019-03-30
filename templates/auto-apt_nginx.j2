@@ -20,9 +20,11 @@ sudo auto-apt run ./configure \
     --http-proxy-temp-path={{ nginx_script.http_proxy_temp_path }} \
     --http-scgi-temp-path={{ nginx_script.http_scgi_temp_path }} \
     --http-uwsgi-temp-path={{ nginx_script.http_uwsgi_temp_path }} \
+    {# This first for loop is for the long `with` list in the variable file #}
     {% for with in nginx_script.with -%}
     --with-{{ with }} \
     {% endfor %}
+    {# This is how we add onto the `with` list from the defaulted items #}
     {% if nginx_script_extra_with is defined %}
     {% for with in nginx_script_extra_with %}
     --with-{{ with }} \
