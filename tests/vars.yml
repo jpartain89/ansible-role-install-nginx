@@ -11,7 +11,7 @@ nginx_module:
   - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs", conf_loc: "nginx" }
 
 nginx_alt_module:
-  - "$(/home/jpartain89/test/bin/passenger-config --nginx-addon-dir)"
+#  - "$(/home/jpartain89/test/bin/passenger-config --nginx-addon-dir)"
 
 nginx_script:
   extra_with:
