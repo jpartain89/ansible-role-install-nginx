@@ -35,16 +35,21 @@
 #  loop:
 #    - "{{ _nginx_apt_extras_tmp.results }}"
 
-- name: Run Scripts
-  shell: |
-    wget -O - https://packages.sury.org/php/README.txt  | bash
-  become: true
-  when: ansible_os_family == "Debian"
+- name: Add Apt-Key for Sury PHP
+  apt_key:
+    url: https://packages.sury.org/php/apt.gpg
+    state: present
 
-- name: Install Surey PHP PPA
+- name: Add Sury PHP Repo | Debian
   apt_repository:
-    repo: ppa:ondrej/php
-  when: ansible_os_family == "Ubuntu"
+    repo: "deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main"
+  when: ansible_distribution == "Debian"
+
+- name: Add Sury PHP Repo | Ubuntu
+  apt_repository:
+    repo: "ppa:ondrej/php"
+    state: present
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install Required PreRequisites - apt
   apt:
@@ -116,7 +121,7 @@
 
 - name: Run PCRE Steps
   include_tasks: pcre.yml
-  #when: _pcre_installed.rc != 0
+#  when: _pcre_installed.rc != 0
 
 #- name: Test if ZLIB is Installed
 #  command: 'dpkg -l zlib'
@@ -129,7 +134,7 @@
 
 - name: Run ZLIB Steps
   include_tasks: zlib.yml
-  #when: _zlib_installed.rc != 0
+#  when: _zlib_installed.rc != 0
 
 - name: Test if OpenSSL is Installed
   command: 'dpkg -l openssl'

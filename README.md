@@ -18,6 +18,10 @@ This will be added into the URL for downloading the source code, as well as the 
 
 Please check out the `defaults/main.yml` file for the more complete list of variables.
 
+``nginx_script_extra_with`` - This is to add onto the defaulted list of `with` items that can be added to the config options when building NGINX
+
+``nginx_alt_module`` - This is to include a module, but using a CLI one liner rather than a git URL and the directory name.
+
 Example Playbook
 ----------------
 

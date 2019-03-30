@@ -9,11 +9,10 @@ nginx_module:
   - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }
   - { name: "nginx-dav-ext-module", address: "https://github.com/arut/nginx-dav-ext-module.git"}
 
-nginx_dynamic_module_2:
-  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs", conf_loc: "nginx" }
+nginx_alt_module: []
+#  - "$(/home/jpartain89/test/bin/passenger-config --nginx-addon-dir)"
 
-nginx_alt_module:
-  - "$(/home/jpartain89/test/bin/passenger-config --nginx-addon-dir)"
+nginx_dynamic_module: []
 
 nginx_script:
   extra_with:
@@ -54,3 +53,5 @@ nginx_script:
     - 'mail_ssl_module'
 
 nginx_apt_extras: false
+
+nginx_extra_prerequisites: []
