@@ -54,3 +54,5 @@ nginx_script:
     - 'mail_ssl_module'
 
 nginx_apt_extras: false
+
+nginx_extra_prerequisites: []
