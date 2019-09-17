@@ -22,5 +22,6 @@
 - name: Run Created Shell Script | ZLIB
   script: "/tmp/nginx/auto-apt_zlib.sh"
   register: _auto_apt_zlib_sh
-  notify: Delete ZLIB Script
+  notify: Delete OpenSSL Script
   become: true
+  notify: Delete ZLIB Script

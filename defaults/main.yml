@@ -1,8 +1,8 @@
 ---
 # defaults file for install-nginx
 
-#nginx_version: "nginx-1.13.11"
-pcre_version: "pcre-8.42"
+nginx_version: "nginx-1.13.11"
+pcre_version: "pcre-8.41"
 zlib_version: "zlib-1.2.11"
 openssl_version: "openssl-1.1.0f"
 
@@ -26,8 +26,6 @@ nginx_script:
   http_scgi_temp_path: /var/lib/nginx/scgi
   http_uwsgi_temp_path: /var/lib/nginx/uwsgi
   with:
-    - 'pcre=../{{ pcre_version }}'
-    - 'zlib=../{{ zlib_version }}'
     - 'debug'
     - 'pcre-jit'
     - 'http_ssl_module'
@@ -46,6 +44,12 @@ nginx_script:
     - 'stream_ssl_module'
     - 'mail=dynamic'
     - 'mail_ssl_module'
+
+nginx_module:
+  - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git"}
+
+nginx_dynamic_module_2:
+  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs", conf_loc: "nginx" }
 
 nginx_prerequisites:
   - build-essential
@@ -67,7 +71,3 @@ nginx_prerequisites:
   - libperl-dev
   - libssl-dev
   - libcurl4-openssl-dev
-
-#nginx_extra_prerequisites:
-  #- php7.0
-  #- php7.0-fpm

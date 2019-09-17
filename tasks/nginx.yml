@@ -10,28 +10,6 @@
     group: "{{ ansible_user_gid }}"
   become: true
 
-- name: Git Clone Any Additional Static Modules
-  git:
-    repo: "{{ item.address }}"
-    dest: "/tmp/nginx/{{ item.name }}"
-    clone: yes
-    update: yes
-    recursive: yes
-  loop: "{{ nginx_module }}"
-  failed_when: false
-  become: true
-
-- name: Git Clone Any Additional Dynamic Modules
-  git:
-    repo: "{{ item.address }}"
-    dest: "/tmp/nginx/{{ item.name }}"
-    clone: yes
-    update: yes
-    recursive: yes
-  loop: "{{ nginx_dynamic_module }}"
-  failed_when: false
-  become: true
-
 - name: Create auto-apt_nginx Script from Template | NGINX
   template:
     src: auto-apt_nginx.j2
@@ -44,4 +22,5 @@
 - name: Run Created Shell Script | NGINX
   script: "/tmp/nginx/auto-apt_nginx.sh"
   register: _auto_apt_nginx_sh
+  notify: Delete All tmp Files
   become: true
