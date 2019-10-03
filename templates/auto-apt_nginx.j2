@@ -1,8 +1,9 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -e
 
 cd "/tmp/nginx/{{ nginx_version }}" &&
 
-sudo auto-apt run ./configure \
+sudo ./configure \
     --prefix={{ nginx_script.prefix }} \
     --sbin-path={{ nginx_script.sbin_path }} \
     --conf-path={{ nginx_script.conf_path }} \

@@ -61,7 +61,6 @@ nginx_prerequisites:
   - libpcre++-dev
   - libssl-dev
   - checkinstall
-  - auto-apt
   - zlib1g-dev
   - libbz2-dev
   - libxslt1-dev
