@@ -17,20 +17,24 @@ sudo ./configure \
     --http-proxy-temp-path={{ nginx_script.http_proxy_temp_path }} \
     --http-scgi-temp-path={{ nginx_script.http_scgi_temp_path }} \
     --http-uwsgi-temp-path={{ nginx_script.http_uwsgi_temp_path }} \
-    {% for with in nginx_script.with %}
+    {% for with in nginx_script.with -%}
     --with-{{ with }} \
     {% endfor %}
-    {% if nginx_script_extra_with is defined %}
-    {% for with in nginx_script_extra_with %}
+    {%- if nginx_script_extra_with is defined %}
+    {%- for with in nginx_script_extra_with -%}
     --with-{{ with }} \
     {% endfor %}{% endif %}
-    {% if nginx_module is defined %}
-    {% for name in nginx_module %}
+    {%- if nginx_module is defined %}
+    {%- for name in nginx_module -%}
     --add-module=../{{ name.name }} \
     {% endfor %}{% endif %}
-    {% if nginx_alt_module is defined %}
-    {% for name in nginx_alt_module %}
+    {%- if nginx_alt_module is defined %}
+    {%- for name in nginx_alt_module %}
     --add-module={{ name }} \
+    {% endfor %}{% endif %}
+    {%- if nginx_extra_extras is defined %}
+    {%- for key in nginx_extra_extras %}
+    --{{ key }}="{{ nginx_extra_extras[key] }}" \
     {% endfor %}{% endif %}
     --with-http_v2_module
 

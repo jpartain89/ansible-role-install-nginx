@@ -39,15 +39,15 @@
 - name: Install Required PreRequisites - apt
   apt:
     name: "{{ nginx_prerequisites }}"
-    state: latest
+    state: absent
     update_cache: yes
     cache_valid_time: 32400
   become: true
 
 - name: Install Any Extra Programs Needed
   apt:
-    name: "{{ nginx_extra_prerequisites }}"
-    state: latest
+    name: "{{ nginx_extra_prerequisites | bool }}"
+    state: absent
     update_cache: yes
     cache_valid_time: 32400
   become: true
@@ -79,11 +79,13 @@
 
 - name: Create NGINX Directories
   file:
-    path: "{{ nginx_directories }}"
+    path: "{{ item }}"
     owner: root
     group: root
     state: directory
     mode: 0775
+  with_items:
+    - nginx_directories
   become: true
 
 - name: Test if PCRE is Installed
@@ -126,7 +128,7 @@
   when: _openssl_installed.rc != 0
 
 - name: Git Clone Any Additional Static Modules
-  git:
+  git: # noqa 401
     repo: "{{ item.address }}"
     dest: "/tmp/nginx/{{ item.name }}"
     clone: yes

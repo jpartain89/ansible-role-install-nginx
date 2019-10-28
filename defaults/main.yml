@@ -52,10 +52,15 @@ nginx_dynamic_module_2:
   - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs", conf_loc: "nginx" }
 
 nginx_prerequisites:
+  - aptitude
   - build-essential
   - curl
   - git
   - gcc
+  - gcc-8
+  - mawk
+  - libgcc-8-dev
+  - gawk
   - make
   - libpcre3-dev
   - libpcre++-dev
