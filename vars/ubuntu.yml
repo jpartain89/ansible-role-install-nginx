@@ -9,7 +9,6 @@ nginx_prerequisites:
   - gcc
   - gcc-8
   - mawk
-  - libgcc-8-dev
   - gawk
   - make
   - libpcre3-dev

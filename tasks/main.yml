@@ -8,6 +8,13 @@
   include_vars: debian.yml
   when: ansible_os_family == "Debian"
 
+- name: Add Backports apt repo for CheckInstall
+  apt_repository:
+    repo: "deb http://deb.debian.org/debian buster-backports main contrib non-free"
+    state: present
+  become: true
+  when: ansible_distribution_release == "buster"
+
 - name: Create Master tmp Directory
   file:
     path: /tmp/nginx
