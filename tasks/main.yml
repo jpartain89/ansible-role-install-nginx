@@ -13,7 +13,9 @@
     repo: "deb http://deb.debian.org/debian buster-backports main contrib non-free"
     state: present
   become: true
-  when: ansible_distribution_release == "buster"
+  when:
+    - ansible_distribution_release == "buster"
+    - ansible_lsb.id  != "Raspbian"
 
 - name: Create Master tmp Directory
   file:
@@ -34,23 +36,6 @@
   delegate_to: localhost
   become: true
 
-- name: Download and Run Adding Any Apt Repos
-  get_url:
-    url: "{{ item }}"
-    dest: "/tmp/nginx/"
-  with_items:
-    - "{{ nginx_apt_extras }}"
-  register: _nginx_apt_extras_tmp
-  become: true
-  when: nginx_apt_extras
-
-- name: Run Downloaded Scripts
-  command: 'bash "{{ item.dest }}"'
-  become: true
-  when: nginx_apt_extras
-  with_items:
-    - "{{ _nginx_apt_extras_tmp.results }}"
-
 - name: Install Required PreRequisites - apt
   apt:
     name: "{{ nginx_prerequisites }}"
@@ -61,12 +46,12 @@
 
 - name: Install Any Extra Programs Needed
   apt:
-    name: "{{ nginx_extra_prerequisites | bool }}"
+    name: "{{ nginx_extra_prerequisites }}"
     state: present
     update_cache: yes
     cache_valid_time: 32400
   become: true
-  when: nginx_extra_prerequisites
+  when: nginx_extra_prerequisites | bool
 
 - name: Confirm /etc/nginx Exists
   stat:
