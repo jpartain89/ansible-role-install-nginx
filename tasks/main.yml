@@ -29,8 +29,8 @@
 - name: Create Master tmp Directory | Localhost
   file:
     path: /tmp/nginx
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
+    owner: "{{ ansible_user_uid | int }}"
+    group: "{{ ansible_user_gid | int }}"
     state: directory
     mode: 0775
   delegate_to: localhost
@@ -155,8 +155,8 @@
     src: "{{ nginx_config_loc }}"
     dest: /etc/nginx
     state: link
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
+    owner: "{{ ansible_user_uid | int }}"
+    group: "{{ ansible_user_gid | int }}"
   become: true
   when:
     - _nginx_config.stat.exists

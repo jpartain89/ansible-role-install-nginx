@@ -6,8 +6,8 @@
     src: "{{ zlib_url }}"
     dest: "/tmp/nginx"
     remote_src: yes
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
+    owner: "{{ ansible_user_uid | int }}"
+    group: "{{ ansible_user_gid | int }}"
   become: true
 
 - name: Create auto-apt_zlib Script from Template | ZLIB
