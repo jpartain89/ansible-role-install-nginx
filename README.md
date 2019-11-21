@@ -3,7 +3,7 @@ Install NGINX
 
 | **Travis-CI** |
 | ---- |
-| [![Build Status](https://travis-ci.org/jpartain89/ansible-role-install-nginx.svg?branch=master)](https://travis-ci.org/jpartain89/ansible-role-install-nginx) |
+| [![Build Status](https://travis-ci.com/jpartain89/ansible-role-install-nginx.svg?branch=master)](https://travis-ci.com/jpartain89/ansible-role-install-nginx) |
 
 Installs NGINX and Dynamic Modules (both modules that install during config and after) from Source
 
