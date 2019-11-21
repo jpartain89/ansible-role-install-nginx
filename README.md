@@ -1,5 +1,4 @@
-Install NGINX
-=========
+# Install NGINX
 
 | **Travis-CI** |
 | ---- |
@@ -7,14 +6,13 @@ Install NGINX
 
 Installs NGINX and Dynamic Modules (both modules that install during config and after) from Source
 
-Role Variables
---------------
+## Role Variables
 
 The `main.yml` file that is in the `defaults` directory is the place to look for all of the variables that you would be most interested in adjusting.
 
 Specifically, the variable ``nginx_version`` is what I personally have in my actual playbook file or you can call it on the command line, as thats obviously the variable that will be changed the most often as you run this for updating NGINX.
 
-Some example variable adjustments:
+### Some example variable adjustments:
 
 For the ``nginx_module`` variable dictionary, the ``name`` is the name of the repo/module and the ``address`` is obviously the git repo address. The ``name`` part of the variable gets included in the templated script for building nginx.
 
@@ -28,8 +26,7 @@ nginx_module:
 
 The ``nginx_config_loc`` variable is more personally specific than world-usable. I personally keep my nginx configuration files in a git repo for online backup/saving/editing. Becuase of this, I use a symlink from ``/etc/nginx`` to the cloned location in my home directory. Setting ``nginx_config_loc`` allows the safe removal of an existing link, removal of the default directory that gets installed because of the build and then relink the git repo. (When running the build steps, it automatically writes/overwrites the ``/etc/nginx`` directory, which is super annoying. This way, we stop the overwriting)
 
-Example Playbook
-----------------
+## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
@@ -43,12 +40,10 @@ Including an example of how to use your role (for instance, with variables passe
       import_role:
         name: jpartain89.install-nginx
 
-License
--------
+## License
 
 GPLv3
 
-Author Information
-------------------
+## Author Information
 
 Justin Partain and JPCDI, github.com/jpartain89
