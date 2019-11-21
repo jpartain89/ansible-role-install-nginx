@@ -2,11 +2,11 @@
 
 - name: Include Ubuntu Vars
   include_vars: ubuntu.yml
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Include Debian Vars
   include_vars: debian.yml
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Add Backports apt repo for CheckInstall
   apt_repository:
@@ -14,14 +14,14 @@
     state: present
   become: true
   when:
-    - ansible_distribution_release == "buster"
-    - ansible_lsb.id  != "Raspbian"
+    - ansible_facts['distribution_release'] == "buster"
+    - ansible_facts['lsb']['id']  != "Raspbian"
 
 - name: Create Master tmp Directory
   file:
     path: /tmp/nginx
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
+    owner: "{{ ansible_user_uid | int }}"
+    group: "{{ ansible_user_gid | int }}"
     state: directory
     mode: 0775
   become: true
