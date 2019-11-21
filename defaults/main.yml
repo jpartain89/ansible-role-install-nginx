@@ -48,27 +48,14 @@ nginx_script:
 nginx_module:
   - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }
 
-nginx_prerequisites:
-  - aptitude
-  - build-essential
-  - curl
-  - git
-  - gcc
-  - gcc-8
-  - mawk
-  - libgcc-8-dev
-  - gawk
-  - make
-  - libpcre3-dev
-  - libpcre++-dev
-  - libssl-dev
-  - checkinstall
-  - zlib1g-dev
-  - libbz2-dev
-  - libxslt1-dev
-  - libxml2-dev
-  - libgeoip-dev
-  - libgoogle-perftools-dev
-  - libperl-dev
-  - libssl-dev
-  - libcurl4-openssl-dev
+nginx_extra_prerequisites:
+  #- php7.0
+  #- php7.0-fpm
+
+nginx_apt_extras: false
+
+nginx_directories:
+  - "/usr/lib/nginx/modules"
+  - "/var/log/nginx"
+  - "/var/cache/nginx/tmp_proxy"
+  - "/var/lib/nginx/body"

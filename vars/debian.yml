@@ -1,0 +1,26 @@
+---
+# debian vars file for install-nginx
+
+nginx_prerequisites:
+  - aptitude
+  - build-essential
+  - curl
+  - git
+  - gcc
+  - mawk
+  - libgcc-8-dev
+  - gawk
+  - make
+  - libpcre3-dev
+  - libpcre++-dev
+  - libssl-dev
+  - checkinstall
+  - zlib1g-dev
+  - libbz2-dev
+  - libxslt1-dev
+  - libxml2-dev
+  - libgeoip-dev
+  - libgoogle-perftools-dev
+  - libperl-dev
+  - libssl-dev
+  - libcurl4-openssl-dev

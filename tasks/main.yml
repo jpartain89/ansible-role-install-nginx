@@ -1,5 +1,13 @@
 ---
 
+- name: Include Ubuntu Vars
+  include_vars: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Include Debian Vars
+  include_vars: debian.yml
+  when: ansible_os_family == "Debian"
+
 - name: Create Master tmp Directory
   file:
     path: /tmp/nginx
