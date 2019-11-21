@@ -46,10 +46,7 @@ nginx_script:
     - 'mail_ssl_module'
 
 nginx_module:
-  - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git"}
-
-nginx_dynamic_module_2:
-  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs", conf_loc: "nginx" }
+  - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }
 
 nginx_prerequisites:
   - aptitude
