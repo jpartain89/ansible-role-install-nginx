@@ -11,6 +11,8 @@ pcre_url: "https://ftp.pcre.org/pub/pcre/{{ pcre_version }}.tar.gz"
 zlib_url: "http://zlib.net/{{ zlib_version }}.tar.gz"
 openssl_url: "http://www.openssl.org/source/{{ openssl_version }}.tar.gz"
 
+nginx_config_loc: "{{ ansible_env.HOME }}/git/nginx-deployment/nginx_conf"
+
 nginx_script:
   prefix: /usr/share/nginx
   sbin_path: /usr/sbin/nginx
