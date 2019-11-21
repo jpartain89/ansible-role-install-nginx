@@ -39,7 +39,7 @@
 - name: Install Required PreRequisites - apt
   apt:
     name: "{{ nginx_prerequisites }}"
-    state: absent
+    state: present
     update_cache: yes
     cache_valid_time: 32400
   become: true
@@ -47,7 +47,7 @@
 - name: Install Any Extra Programs Needed
   apt:
     name: "{{ nginx_extra_prerequisites | bool }}"
-    state: absent
+    state: present
     update_cache: yes
     cache_valid_time: 32400
   become: true
