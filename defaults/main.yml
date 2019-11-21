@@ -1,7 +1,7 @@
 ---
 # defaults file for install-nginx
 
-nginx_version: "nginx-1.13.11"
+nginx_version: "nginx-1.17.6"
 pcre_version: "pcre-8.41"
 zlib_version: "zlib-1.2.11"
 openssl_version: "openssl-1.1.0f"
@@ -46,28 +46,15 @@ nginx_script:
     - 'mail_ssl_module'
 
 nginx_module:
-  - { name: "ngx_http_auth_pam_module", address: "https://github.com/sto/ngx_http_auth_pam_module.git"}
+  - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }
 
-nginx_dynamic_module_2:
-  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs", conf_loc: "nginx" }
+nginx_extra_prerequisites:
+  #- php7.0
+  #- php7.0-fpm
 
-nginx_prerequisites:
-  - build-essential
-  - curl
-  - git
-  - gcc
-  - make
-  - libpcre3-dev
-  - libpcre++-dev
-  - libssl-dev
-  - checkinstall
-  - auto-apt
-  - zlib1g-dev
-  - libbz2-dev
-  - libxslt1-dev
-  - libxml2-dev
-  - libgeoip-dev
-  - libgoogle-perftools-dev
-  - libperl-dev
-  - libssl-dev
-  - libcurl4-openssl-dev
+nginx_directories:
+  - "/usr/lib/nginx/modules"
+  - "/var/log/nginx"
+  - "/var/cache/nginx/tmp_proxy"
+  - "/var/lib/nginx/body"
+  - "/usr/local/share/doc"

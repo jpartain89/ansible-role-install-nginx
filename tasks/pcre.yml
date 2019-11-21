@@ -6,8 +6,8 @@
     src: "{{ pcre_url }}"
     dest: "/tmp/nginx"
     remote_src: yes
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
+    owner: "{{ ansible_user_uid | int }}"
+    group: "{{ ansible_user_gid | int }}"
   become: true
 
 - name: Create auto-apt_pcre Script from Template | PCRE
@@ -22,6 +22,5 @@
 - name: Run Created Shell Script | PCRE
   script: "/tmp/nginx/auto-apt_pcre.sh"
   register: _auto_apt_pcre_sh
-  notify: Delete OpenSSL Script
   become: true
   notify: Delete PCRE Script

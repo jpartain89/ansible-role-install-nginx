@@ -18,7 +18,6 @@ galaxy_info:
       - wheezy
 
   galaxy_tags:
-    - NGINX
-    - Source Install
+    - nginx
 
 dependencies: []
