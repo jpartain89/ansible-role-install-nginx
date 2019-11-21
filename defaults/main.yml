@@ -1,7 +1,7 @@
 ---
 # defaults file for install-nginx
 
-nginx_version: "nginx-1.13.11"
+nginx_version: "nginx-1.17.6"
 pcre_version: "pcre-8.41"
 zlib_version: "zlib-1.2.11"
 openssl_version: "openssl-1.1.0f"
@@ -51,8 +51,6 @@ nginx_module:
 nginx_extra_prerequisites:
   #- php7.0
   #- php7.0-fpm
-
-nginx_apt_extras: false
 
 nginx_directories:
   - "/usr/lib/nginx/modules"
