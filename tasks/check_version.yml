@@ -1,0 +1,16 @@
+---
+
+- name: Get the Currently Installed NGINX Version
+  shell: "nginx -v 2>&1  | grep -o '[0-9.]*$'"
+  register: _current_nginx_version_number
+  ignore_errors: true
+  changed_when: false
+
+- name: Combine nginx- with Version Number
+  command: 'echo "nginx-{{ _current_nginx_version_number.stdout  | default(0.0.0) }}"'
+  register: _current_nginx_version
+
+- name: Compare Versions
+  fail:
+    msg: "NGINX Doesn't Require any Update. Cancelling..."
+  when: nginx_version == _current_nginx_version.stdout

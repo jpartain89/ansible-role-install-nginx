@@ -8,6 +8,9 @@
   include_vars: debian.yml
   when: ansible_facts['os_family'] == "Debian"
 
+- name: Check Versions
+  include_tasks: check_version.yml
+
 - name: Add Backports apt repo for CheckInstall
   apt_repository:
     repo: "deb http://deb.debian.org/debian buster-backports main contrib non-free"
@@ -36,6 +39,13 @@
   delegate_to: localhost
   become: true
 
+- name: Installing sury.org's apt repo
+  script: "files/sury_php.sh"
+  args:
+    executable: bash
+    creates: /etc/apt/sources.list.d/php.list
+  become: true
+
 - name: Install Required PreRequisites - apt
   apt:
     name: "{{ nginx_prerequisites }}"
@@ -51,7 +61,6 @@
     update_cache: yes
     cache_valid_time: 32400
   become: true
-  when: nginx_extra_prerequisites | bool
 
 - name: Confirm /etc/nginx Exists
   stat:
@@ -80,8 +89,8 @@
 - name: Create NGINX Directories
   file:
     path: "{{ item }}"
-    owner: root
-    group: root
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
     state: directory
     mode: 0775
   with_items:
@@ -155,8 +164,8 @@
     src: "{{ nginx_config_loc }}"
     dest: /etc/nginx
     state: link
-    owner: "{{ ansible_user_uid | int }}"
-    group: "{{ ansible_user_gid | int }}"
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
   become: true
   when:
     - _nginx_config.stat.exists
