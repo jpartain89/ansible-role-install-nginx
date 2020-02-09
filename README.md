@@ -12,6 +12,8 @@ The `main.yml` file that is in the `defaults` directory is the place to look for
 
 Specifically, the variable ``nginx_version`` is what I personally have in my actual playbook file or you can call it on the command line, as thats obviously the variable that will be changed the most often as you run this for updating NGINX.
 
+And I also have included a ``nginx_check_version`` variable, for skipping the task block that stops the playbook only if your new version variable from above is different from the one currently installed. This way, if you make a change to how NGINX is compiled, it'll let you past by adding ``-e "nginx_check_version=false"`` to the end of your ``ansible-playbook`` command.
+
 ### Some example variable adjustments:
 
 For the ``nginx_module`` variable dictionary, the ``name`` is the name of the repo/module and the ``address`` is obviously the git repo address. The ``name`` part of the variable gets included in the templated script for building nginx.

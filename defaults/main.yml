@@ -9,6 +9,8 @@ pcre_version: "pcre-8.41"
 zlib_version: "zlib-1.2.11"
 openssl_version: "openssl-1.1.0f"
 
+nginx_check_version: true
+
 nginx_url: "http://nginx.org/download/{{ nginx_version }}.tar.gz"
 pcre_url: "https://ftp.pcre.org/pub/pcre/{{ pcre_version }}.tar.gz"
 zlib_url: "http://zlib.net/{{ zlib_version }}.tar.gz"
@@ -49,6 +51,7 @@ nginx_script:
     - 'stream_ssl_module'
     - 'mail=dynamic'
     - 'mail_ssl_module'
+    - 'stream'
 
 nginx_module:
   - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }

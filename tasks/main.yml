@@ -10,6 +10,7 @@
 
 - name: Check Versions
   include_tasks: check_version.yml
+  when: nginx_check_version == true
 
 - name: Add Backports apt repo for CheckInstall
   apt_repository:
