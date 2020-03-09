@@ -67,4 +67,4 @@ nginx_directories:
   - "/var/lib/nginx/body"
   - "/usr/local/share/doc"
 
-nginx_users_groups: []
+nginx_users_groups: nginx
