@@ -8,6 +8,12 @@
   include_vars: debian.yml
   when: ansible_facts['os_family'] == "Debian"
 
+- name: Create NGINX Group
+  group:
+    name: nginx
+    state: present
+    system: yes
+
 - name: Create NGINX Users
   user:
     name: nginx
