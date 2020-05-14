@@ -28,6 +28,10 @@ sudo ./configure \
     {%- for name in nginx_module -%}
     --add-module=../{{ name.name }} \
     {% endfor %}{% endif %}
+    {%- if nginx_module_nginx is defined %}
+    {%- for name in nginx_module_nginx -%}
+    --add-module=../{{ name.name }}/nginx \
+    {% endfor %}{% endif %}
     {%- if nginx_alt_module is defined %}
     {%- for name in nginx_alt_module %}
     --add-module={{ name }} \

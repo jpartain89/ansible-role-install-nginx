@@ -162,6 +162,7 @@
     recursive: yes
   with_items:
     - "{{ nginx_module }}"
+    - "{{ nginx_module_nginx }}"
   failed_when: false
   become: true
 
