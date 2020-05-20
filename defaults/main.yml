@@ -56,6 +56,9 @@ nginx_script:
 nginx_module:
   - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }
 
+nginx_module_nginx:
+    - []
+
 nginx_extra_prerequisites:
   #- php7.0
   #- php7.0-fpm
