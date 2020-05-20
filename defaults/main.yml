@@ -53,11 +53,12 @@ nginx_script:
     - 'mail_ssl_module'
     - 'stream'
 
+# The name of the module here is the final, official name you want to link to
 nginx_module:
   - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }
 
 nginx_module_nginx:
-    - []
+  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs" }
 
 nginx_extra_prerequisites:
   #- php7.0
