@@ -148,7 +148,7 @@
   include_tasks: openssl.yml
   when: _openssl_installed.rc != 0
 
-- name: Git Clone Any Additional Static Modules
+- name: Git Clone Any Additional Modules
   git: # noqa 401
     repo: "{{ item.address }}"
     dest: "/tmp/nginx/{{ item.name }}"
@@ -158,6 +158,7 @@
   with_items:
     - "{{ nginx_module }}"
     - "{{ nginx_module_nginx }}"
+    - "{{ nginx_dynamic_module }}"
   failed_when: false
   become: true
 
