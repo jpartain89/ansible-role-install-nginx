@@ -22,7 +22,7 @@
     state: present
     groups: "{{ item }}"
   with_items:
-    - "{{ nginx_users_groups }}"
+    - "{{ nginx_users_groups | default(omit) }}"
 
 - name: Check Versions
   include_tasks: check_version.yml
@@ -65,14 +65,11 @@
 
 - name: Install Required PreRequisites - apt
   apt:
-    name: "{{ item }}"
+    name: "['{{ nginx_prerequisites }}', '{{ nginx_extra_prerequisites }}']"
     state: present
     update_cache: yes
     cache_valid_time: 32400
   become: true
-  with_items:
-    - "{{ nginx_prerequisites }}"
-    - "{{ nginx_extra_prerequisites }}"
 
 - name: Confirm /etc/nginx Exists
   stat:
