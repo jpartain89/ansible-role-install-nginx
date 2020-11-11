@@ -65,11 +65,21 @@
 
 - name: Install Required PreRequisites - apt
   apt:
-    name: "['{{ nginx_prerequisites }}', '{{ nginx_extra_prerequisites }}']"
+    name: "{{ nginx_prerequisites }}" 
     state: present
     update_cache: yes
     cache_valid_time: 32400
   become: true
+  failed_when: false
+
+- name: Install Extra PreRequisites
+  apt:
+    name: "{{ nginx_extra_prerequisites }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 32400
+  become: true
+  failed_when: false
 
 - name: Confirm /etc/nginx Exists
   stat:
