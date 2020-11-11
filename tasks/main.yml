@@ -22,7 +22,7 @@
     state: present
     groups: "{{ item }}"
   with_items:
-    - "{{ nginx_users_groups }}"
+    - "{{ nginx_users_groups | default(omit) }}"
 
 - name: Check Versions
   include_tasks: check_version.yml
