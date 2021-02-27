@@ -4,7 +4,7 @@
 nginx_user: nginx
 nginx_group: nginx
 
-nginx_version: "nginx-1.19.4"
+#nginx_version: "nginx-1.19.4"
 pcre_version: "pcre-8.41"
 zlib_version: "zlib-1.2.11"
 openssl_version: "openssl-1.1.0f"
