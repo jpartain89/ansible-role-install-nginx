@@ -62,6 +62,12 @@
     executable: bash
     creates: /etc/apt/sources.list.d/php.list
   become: true
+  when: ansible_facts['distribution'] == "Debian"
+
+- name: Installing sury.org's ppa
+  ansible.builtin.apt_repository:
+    repo: ppa:ondrej/php
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Install Required PreRequisites - apt
   apt:
@@ -192,3 +198,16 @@
     - _nginx_config.stat.exists
     - _nginx_config.stat.islnk
   failed_when: false
+
+- name: Test if nginx.service exists
+  shell: "systemctl status nginx.service -q"
+  register: _nginx_systemctl
+  become: true
+
+- name: Create nginx.service
+  template:
+    src: nginx.service.j2
+    dest: "/etc/systemd/system/nginx.service"
+    mode: 0750
+  become: true
+  when: _nginx_systemctl.rc != 0

@@ -77,9 +77,21 @@ nginx_module:
 nginx_module_nginx:
   - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs" }
 
-nginx_extra_prerequisites: []
-  #- php7.0
-  #- php7.0-fpm
+nginx_dynamic_module: []
+
+nginx_extra_prerequisites:
+  - php7.0
+  - php7.0-fpm
+  - php7.1-fpm
+  - php7.1
+  - php7.2-fpm
+  - php7.2
+  - php7.3-fpm
+  - php7.3
+  - php7.4-fpm
+  - php7.4
+  - php8.0-fpm
+  - php8.0
 
 nginx_directories:
   - "/usr/lib/nginx/modules"

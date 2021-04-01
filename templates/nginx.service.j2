@@ -1,0 +1,17 @@
+[Unit]
+Description=The NGINX HTTP and reverse proxy server
+After=syslog.target network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+PIDFile={{ nginx_script.pid_path }}
+ExecStartPre={{ nginx_script.sbin_path }} -t
+ExecStart={{ nginx_script.sbin_path }}
+ExecReload=/bin/kill -s reload
+ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile {{ nginx_script.pid_path }}
+TimeoutStopSec=5
+KillMode=mixed
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
