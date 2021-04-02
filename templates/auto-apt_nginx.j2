@@ -46,5 +46,5 @@ sudo make &&
 sudo checkinstall -y \
     --maintainer {{ ansible_user_id }} \
     --pkgname nginx \
-    --pkgversion {{ nginx_version }} \
+    --pkgversion {{ _nginx_local_version.stdout }} \
     --pakdir /tmp/nginx

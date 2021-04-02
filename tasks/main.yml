@@ -28,6 +28,11 @@
   include_tasks: check_version.yml
   when: nginx_check_version == true
 
+- name: Assign NGINX Version locally
+  command: "echo {{ nginx_version }}"
+  register: _nginx_local_version
+  delegate_to: localhost
+
 - name: Add Backports apt repo for CheckInstall
   apt_repository:
     repo: "deb http://deb.debian.org/debian buster-backports main contrib non-free"
@@ -203,11 +208,22 @@
   shell: "systemctl status nginx.service -q"
   register: _nginx_systemctl
   become: true
+  failed_when: false
 
 - name: Create nginx.service
   template:
     src: nginx.service.j2
     dest: "/etc/systemd/system/nginx.service"
     mode: 0750
+  become: true
+  when: _nginx_systemctl.rc != 0
+
+- name: Register nginx.service
+  systemd:
+    masked: no
+    state: started
+    name: nginx.service
+    enabled: true
+    daemon_reload: true
   become: true
   when: _nginx_systemctl.rc != 0
