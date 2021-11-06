@@ -76,9 +76,9 @@
 
 - name: Install Required PreRequisites - apt
   apt:
-    name: "{{ nginx_prerequisites }}" 
+    name: "{{ nginx_prerequisites }}"
     state: present
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 32400
   become: true
   failed_when: false
