@@ -13,6 +13,4 @@
 - name: Compare Versions
   fail:
     msg: "NGINX Doesn't Require any Update. Cancelling..."
-  when:
-    - nginx_version == _current_nginx_version.stdout
-    - nginx_skip_version == false
+  when: nginx_version == _current_nginx_version.stdout

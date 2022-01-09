@@ -5,7 +5,7 @@
   unarchive:
     src: "{{ nginx_url }}"
     dest: "/tmp/nginx"
-    remote_src: true
+    remote_src: yes
     owner: "{{ ansible_user_uid | int }}"
     group: "{{ ansible_user_gid | int }}"
   become: true

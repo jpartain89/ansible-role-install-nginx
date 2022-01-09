@@ -22,16 +22,11 @@
     state: present
     groups: "{{ item }}"
   with_items:
-    - "{{ nginx_users_groups | default(omit) }}"
+    - "{{ nginx_users_groups }}"
 
 - name: Check Versions
   include_tasks: check_version.yml
   when: nginx_check_version == true
-
-- name: Assign NGINX Version locally
-  command: "echo {{ nginx_version }}"
-  register: _nginx_local_version
-  delegate_to: localhost
 
 - name: Add Backports apt repo for CheckInstall
   apt_repository:
@@ -67,30 +62,22 @@
     executable: bash
     creates: /etc/apt/sources.list.d/php.list
   become: true
-  when: ansible_facts['distribution'] == "Debian"
-
-- name: Installing sury.org's ppa
-  ansible.builtin.apt_repository:
-    repo: ppa:ondrej/php
-  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Install Required PreRequisites - apt
   apt:
     name: "{{ nginx_prerequisites }}"
     state: present
-    update_cache: true
+    update_cache: yes
     cache_valid_time: 32400
   become: true
-  failed_when: false
 
-- name: Install Extra PreRequisites
+- name: Install Any Extra Programs Needed
   apt:
     name: "{{ nginx_extra_prerequisites }}"
     state: present
     update_cache: yes
     cache_valid_time: 32400
   become: true
-  failed_when: false
 
 - name: Confirm /etc/nginx Exists
   stat:
@@ -166,7 +153,7 @@
   include_tasks: openssl.yml
   when: _openssl_installed.rc != 0
 
-- name: Git Clone Any Additional Modules
+- name: Git Clone Any Additional Static Modules
   git: # noqa 401
     repo: "{{ item.address }}"
     dest: "/tmp/nginx/{{ item.name }}"
@@ -176,7 +163,6 @@
   with_items:
     - "{{ nginx_module }}"
     - "{{ nginx_module_nginx }}"
-    - "{{ nginx_dynamic_module }}"
   failed_when: false
   become: true
 
@@ -203,27 +189,3 @@
     - _nginx_config.stat.exists
     - _nginx_config.stat.islnk
   failed_when: false
-
-- name: Test if nginx.service exists
-  shell: "systemctl status nginx.service -q"
-  register: _nginx_systemctl
-  become: true
-  failed_when: false
-
-- name: Create nginx.service
-  template:
-    src: nginx.service.j2
-    dest: "/etc/systemd/system/nginx.service"
-    mode: 0750
-  become: true
-  when: _nginx_systemctl.rc != 0
-
-- name: Register nginx.service
-  systemd:
-    masked: no
-    state: started
-    name: nginx.service
-    enabled: true
-    daemon_reload: true
-  become: true
-  when: _nginx_systemctl.rc != 0

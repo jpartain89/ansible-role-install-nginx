@@ -45,7 +45,7 @@ nginx_script:
 #nginx_module_nginx:
 #  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs" }
 
-nginx_extra_prerequisites: []
+#nginx_extra_prerequisites: []
   #- php7.0
   #- php7.0-fpm
 
