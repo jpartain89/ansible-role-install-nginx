@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -e
+
+cd "/tmp/nginx/{{ nginx_version }}" &&
+
+
+./configure --with-compat \
+  {% for module in nginx_dynamic_module %}
+  --add-dynamic-module=../{{ module.name }}
+  {% endfor %}
+
+make modules &&
+{% for module in nginx_dynamic_module %}
+cp objs/{{ module.filename }} /etc/nginx/modules/{{ module.filename }}
+{% endfor %}
