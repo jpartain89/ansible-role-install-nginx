@@ -35,7 +35,7 @@
   become: true
   when:
     - ansible_facts['distribution_release'] == "buster"
-    - ansible_facts['lsb']['id']  != "Raspbian"
+    - ansible_facts['lsb']['id'] != "Raspbian"
 
 - name: Create Master tmp Directory
   file:
@@ -76,15 +76,17 @@
     update_cache: yes
     cache_valid_time: 32400
   become: true
+  failed_when: false
 
-- name: Install Any Extra Programs Needed
-  apt:
-    name: "{{ nginx_extra_prerequisites }}"
-    state: present
-    update_cache: yes
-    cache_valid_time: 32400
-  become: true
-
+#- name: Install Any Extra Programs Needed
+#  apt:
+#    name: "{{ nginx_extra_prerequisites }}"
+#    state: present
+#    update_cache: yes
+#    cache_valid_time: 32400
+#  become: true
+#  failed_when: false
+#
 - name: Confirm /etc/nginx Exists
   stat:
     path: /etc/nginx
@@ -120,18 +122,19 @@
     - "{{ nginx_directories }}"
   become: true
 
-- name: Test if PCRE is Installed
-  command: 'dpkg -l pcre'
-  args:
-    warn: no
-  register: _pcre_installed
-  failed_when: _pcre_installed.rc > 1
-  changed_when: no
-  become: true
+- name: Grab Current PCRE Version
+  command: 'pcre-config --version'
+  register: _pcre_installed_vers_num
+  failed_when: false
+  changed_when: false
+
+- name: Combine Version and name
+  command: 'echo "pcre2-{{ _pcre_installed_vers_num.stdout | default(0.0.0) }}"'
+  register: _pcre_installed_combined
 
 - name: Run PCRE Steps
   include_tasks: pcre.yml
-  when: _pcre_installed.rc != 0
+  when: _pcre_installed_combined.stdout != pcre_version
 
 - name: Test if ZLIB is Installed
   command: 'dpkg -l zlib'
