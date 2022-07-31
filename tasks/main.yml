@@ -150,17 +150,20 @@
   when: _zlib_installed.rc != 0
 
 - name: Test if OpenSSL is Installed
-  command: 'dpkg -l openssl'
+  command: "openssl version | awk '{print $2}'"
   args:
     warn: no
   register: _openssl_installed
-  failed_when: _openssl_installed.rc > 1
+  failed_when: false
   changed_when: no
-  become: true
+
+- name: Combine Version and Name
+  command: 'echo "openssl-{{ _openssl_installed.stdout | default(0.0.0) }}"'
+  register: _openssl_installed_combined
 
 - name: Run OpenSSL Steps
   include_tasks: openssl.yml
-  when: _openssl_installed.rc != 0
+  when: _openssl_installed_combined != openssl_version
 
 - name: Git Clone Any Additional Static Modules
   git: # noqa 401
