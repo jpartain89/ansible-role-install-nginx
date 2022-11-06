@@ -1,35 +1,35 @@
 ---
 
 - name: Delete OpenSSL Script
-  file:
+  ansible.builtin.file:
     path: files/auto-apt_openssl.sh
     state: absent
   delegate_to: localhost
 
 - name: Delete PCRE Script
-  file:
+  ansible.builtin.file:
     path: files/auto-apt_pcre.sh
     state: absent
   delegate_to: localhost
 
 - name: Delete ZLIB Script
-  file:
+  ansible.builtin.file:
     path: files/auto-apt_zlib.sh
     state: absent
   delegate_to: localhost
 
 - name: Delete NGINX Script
-  file:
+  ansible.builtin.file:
     path: files/auto-apt_nginx.sh
     state: absent
   delegate_to: localhost
 
 - name: Delete All tmp Files
-  file:
+  ansible.builtin.file:
     path: /tmp/nginx
     state: absent
   become: true
 
 - name: Reload NGINX
-  command: '/etc/init.d/nginx upgrade_nginx'
+  ansible.builtin.command: '/etc/init.d/nginx upgrade_nginx'
   become: true
