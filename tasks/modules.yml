@@ -1,7 +1,7 @@
 ---
 
 - name: Create Master tmp Directory
-  file:
+  ansible.builtin.file:
     path: /tmp/nginx
     owner: "{{ ansible_user_uid | int }}"
     group: "{{ ansible_user_gid | int }}"
@@ -10,7 +10,7 @@
   become: true
 
 - name: Create Master tmp Directory | Localhost
-  file:
+  ansible.builtin.file:
     path: /tmp/nginx
     owner: "{{ ansible_user_uid | int }}"
     group: "{{ ansible_user_gid | int }}"
@@ -20,28 +20,28 @@
   become: true
 
 - name: Download NGINX Source | NGINX
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ nginx_url }}"
     dest: "/tmp/nginx"
-    remote_src: yes
+    remote_src: true
     owner: "{{ ansible_user_uid | int }}"
     group: "{{ ansible_user_gid | int }}"
   become: true
 
 - name: Git Clone Any Dynamic Modules
-  git:
+  ansible.builtin.git:
     repo: "{{ item.address }}"
     dest: "/tmp/nginx/{{ item.name }}"
-    clone: yes
-    update: yes
-    recursive: yes
+    clone: true
+    update: true
+    recursive: true
   with_items:
     - "{{ nginx_dynamic_module }}"
   failed_when: false
   become: true
 
 - name: Create auto-nginx_module Script from Template | Modules
-  template:
+  ansible.builtin.template:
     src: auto-nginx_module.j2
     dest: "/tmp/nginx/auto-nginx_module.sh"
     mode: 0775
@@ -50,7 +50,7 @@
   become: true
 
 - name: Run Created Shell Script | Module
-  script: "/tmp/nginx/auto-nginx_module.sh"
+  ansible.builtin.script: "/tmp/nginx/auto-nginx_module.sh"
   register: _auto_nginx_module_sh
   notify: Delete All tmp Files
   become: true
