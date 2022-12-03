@@ -30,6 +30,13 @@
     state: absent
   become: true
 
+- name: Enable NGINX Service
+  ansible.builtin.systemd:
+    daemon_reload: true
+    enabled: true
+    name: nginx.service
+    state: started
+
 - name: Reload NGINX
   ansible.builtin.command: '/etc/init.d/nginx upgrade_nginx'
   become: true

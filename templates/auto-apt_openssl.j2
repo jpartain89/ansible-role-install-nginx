@@ -8,5 +8,4 @@ sudo make &&
 sudo checkinstall -y \
     --maintainer {{ ansible_user_id }} \
     --pkgname openssl \
-    --pkgversion {{ openssl_version }} \
-    --pakdir /tmp/nginx
+    --pkgversion {{ openssl_version }}

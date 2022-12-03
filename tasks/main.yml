@@ -123,7 +123,7 @@
   become: true
 
 - name: Grab Current PCRE Version
-  ansible.builtin.command: 'pcre-config --version'
+  ansible.builtin.command: 'pcre2-config --version'
   register: _pcre_installed_vers_num
   failed_when: false
   changed_when: false
@@ -161,9 +161,9 @@
   ansible.builtin.command: 'echo "openssl-{{ _openssl_installed.stdout | default(0.0.0) }}"'
   register: _openssl_installed_combined
 
-- name: Run OpenSSL Steps
-  ansible.builtin.include_tasks: openssl.yml
-  when: _openssl_installed_combined != openssl_version
+#- name: Run OpenSSL Steps
+#  ansible.builtin.include_tasks: openssl.yml
+#  when: _openssl_installed_combined != openssl_version
 
 - name: Git Clone Any Additional Static Modules
   ansible.builtin.git: # noqa 401
@@ -185,7 +185,7 @@
   ansible.builtin.command: 'mv /etc/nginx.bak /etc/nginx'
   when:
     - _nginx_config.stat.exists
-    - false _nginx_config.stat.islnk
+    - _nginx_config.stat.islnk is false
   become: true
   failed_when: false
 
