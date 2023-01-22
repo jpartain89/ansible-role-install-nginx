@@ -2,16 +2,16 @@
 # Task list for ZLIB
 
 - name: Download ZLIB | ZLIB
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ zlib_url }}"
     dest: "/tmp/nginx"
-    remote_src: yes
+    remote_src: true
     owner: "{{ ansible_user_uid | int }}"
     group: "{{ ansible_user_gid | int }}"
   become: true
 
 - name: Create auto-apt_zlib Script from Template | ZLIB
-  template:
+  ansible.builtin.template:
     src: auto-apt_zlib.j2
     dest: "/tmp/nginx/auto-apt_zlib.sh"
     mode: 0775
@@ -20,7 +20,7 @@
   become: true
 
 - name: Run Created Shell Script | ZLIB
-  script: "/tmp/nginx/auto-apt_zlib.sh"
+  ansible.builtin.script: "/tmp/nginx/auto-apt_zlib.sh"
   register: _auto_apt_zlib_sh
   become: true
   notify: Delete ZLIB Script
