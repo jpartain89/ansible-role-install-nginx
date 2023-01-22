@@ -66,15 +66,6 @@
   become: true
   failed_when: false
 
-#- name: Install Any Extra Programs Needed
-#  ansible.builtin.apt:
-#    name: "{{ nginx_extra_prerequisites }}"
-#    state: present
-#    update_cache: true
-#    cache_valid_time: 32400
-#  become: true
-#  failed_when: false
-#
 - name: Confirm /etc/nginx Exists
   ansible.builtin.stat:
     path: /etc/nginx
