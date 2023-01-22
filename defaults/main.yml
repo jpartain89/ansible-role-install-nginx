@@ -12,7 +12,7 @@ openssl_version: "openssl-1.1.0f"
 nginx_check_version: true
 
 nginx_url: "http://nginx.org/download/{{ nginx_version }}.tar.gz"
-pcre_url: "https://github.com/PCRE2Project/pcre2/releases/download/{{ pcre_version }}/{{ pcre_version }}.tar.gz"
+pcre_url: "https://ftp.exim.org/pub/pcre/{{ pcre_version }}.tar.gz"
 zlib_url: "http://zlib.net/{{ zlib_version }}.tar.gz"
 openssl_url: "http://www.openssl.org/source/{{ openssl_version }}.tar.gz"
 
