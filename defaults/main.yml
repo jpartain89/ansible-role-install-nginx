@@ -5,8 +5,10 @@ nginx_user: nginx
 nginx_group: nginx
 
 nginx_version: "nginx-1.17.9"
+
 pcre_version: "pcre-8.44"
 zlib_version: "zlib-1.2.12"
+
 openssl_version: "openssl-1.1.0f"
 
 # Blank values for the following variable keys for point float error

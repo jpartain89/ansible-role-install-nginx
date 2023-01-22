@@ -23,6 +23,7 @@
     groups: "{{ item }}"
   with_items:
     - "{{ nginx_users_groups }}"
+  become: true
 
 - name: Check Versions
   ansible.builtin.include_tasks: check_version.yml
@@ -101,13 +102,13 @@
   become: true
 
 - name: Grab Current PCRE Version
-  ansible.builtin.command: 'pcre2-config --version'
+  ansible.builtin.command: 'pcre-config --version'
   register: _pcre_installed_vers_num
   failed_when: false
   changed_when: false
 
 - name: Combine Version and name
-  ansible.builtin.command: 'echo "pcre2-{{ _pcre_installed_vers_num.stdout | default(0.0.0) }}"'
+  ansible.builtin.command: 'echo "pcre-{{ _pcre_installed_vers_num.stdout | default(0.0.0) }}"'
   register: _pcre_installed_combined
 
 - name: Run PCRE Steps
@@ -116,10 +117,8 @@
 
 - name: Test if ZLIB is Installed
   ansible.builtin.command: 'dpkg -l zlib'
-  args:
-    warn: false
   register: _zlib_installed
-  failed_when: _zlib_installed.rc > 1
+  failed_when: false
   changed_when: false
   become: true
 
@@ -129,14 +128,12 @@
 
 - name: Test if OpenSSL is Installed
   ansible.builtin.command: "openssl version | awk '{print $2}'"
-  args:
-    warn: false
   register: _openssl_installed
   failed_when: false
   changed_when: false
 
 - name: Combine Version and Name
-  ansible.builtin.command: 'echo "openssl-{{ _openssl_installed.stdout | default(0.0.0) }}"'
+  ansible.builtin.command: 'echo "openssl-{{ _openssl_installed.stdout | default(1.0.0) }}"'
   register: _openssl_installed_combined
 
 #- name: Run OpenSSL Steps
