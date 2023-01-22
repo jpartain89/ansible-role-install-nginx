@@ -26,7 +26,7 @@
 
 - name: Check Versions
   ansible.builtin.include_tasks: check_version.yml
-  when: nginx_check_version == true
+  when: nginx_check_version is true
 
 - name: Add Backports apt repo for CheckInstall
   ansible.builtin.apt_repository:
@@ -56,19 +56,6 @@
   delegate_to: localhost
   become: true
 
-- name: Installing sury.org's apt repo
-  ansible.builtin.script: "files/sury_php.sh"
-  args:
-    executable: bash
-    creates: /etc/apt/sources.list.d/php.list
-  become: true
-  when: ansible_facts['os_family'] == "Debian"
-
-- name: Installing sury.org's PPA Repo
-  ansible.builtin.apt_repository:
-    repo: ppa:ondrej/php
-  when: ansible_facts['os_family'] == "Ubuntu"
-
 - name: Install Required PreRequisites - apt
   ansible.builtin.apt:
     name: "{{ nginx_prerequisites }}"
@@ -78,15 +65,6 @@
   become: true
   failed_when: false
 
-#- name: Install Any Extra Programs Needed
-#  ansible.builtin.apt:
-#    name: "{{ nginx_extra_prerequisites }}"
-#    state: present
-#    update_cache: true
-#    cache_valid_time: 32400
-#  become: true
-#  failed_when: false
-#
 - name: Confirm /etc/nginx Exists
   ansible.builtin.stat:
     path: /etc/nginx
