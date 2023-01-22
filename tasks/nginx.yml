@@ -1,7 +1,6 @@
 ---
-# tasks file for nginx.yml
 
-- name: Download NGINX Source | NGINX
+- name: NGINX | nginx.yml | Download NGINX Source
   ansible.builtin.unarchive:
     src: "{{ nginx_url }}"
     dest: "/tmp/nginx"
@@ -10,22 +9,22 @@
     group: "{{ ansible_user_gid | int }}"
   become: true
 
-- name: Create auto-apt_nginx Script from Template | NGINX
+- name: NGINX | nginx.yml | Create auto-apt_nginx Script from Template
   ansible.builtin.template:
-    src: auto-apt_nginx.j2
+    src: auto-apt_nginx.j2 
     dest: "/tmp/nginx/auto-apt_nginx.sh"
     mode: 0775
   register: _auto_apt_nginx
   delegate_to: localhost
   become: true
 
-- name: Run Created Shell Script | NGINX
+- name: NGINX | openssl.yml | Run Created Shell Script
   ansible.builtin.script: "/tmp/nginx/auto-apt_nginx.sh"
   register: _auto_apt_nginx_sh
   notify: Delete All tmp Files
   become: true
 
-- name: Create NGINX Service File
+- name: NGINX | nginx.yml | Create NGINX Service File
   ansible.builtin.template:
     src: nginx.service.j2
     dest: /lib/systemd/system/nginx.service
