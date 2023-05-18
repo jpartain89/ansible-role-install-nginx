@@ -1,7 +1,12 @@
 ---
 # Task list for ZLIB
 
+<<<<<<< HEAD
 - name: Download ZLIB | ZLIB
+=======
+
+- name: NGINX | zlib.yml | Download ZLIB
+>>>>>>> 971d87c74c3fff8d3efd64d99b4d73551de5fca7
   ansible.builtin.unarchive:
     src: "{{ zlib_url }}"
     dest: "/tmp/nginx"
@@ -10,7 +15,12 @@
     group: "{{ ansible_user_gid | int }}"
   become: true
 
+<<<<<<< HEAD
 - name: Create auto-apt_zlib Script from Template | ZLIB
+=======
+
+- name: NGINX | zlib.yml | Create auto-apt_zlib Script from Template
+>>>>>>> 971d87c74c3fff8d3efd64d99b4d73551de5fca7
   ansible.builtin.template:
     src: auto-apt_zlib.j2
     dest: "/tmp/nginx/auto-apt_zlib.sh"
@@ -19,7 +29,11 @@
   delegate_to: localhost
   become: true
 
+<<<<<<< HEAD
 - name: Run Created Shell Script | ZLIB
+=======
+- name: NGINX | zlib.yml | Run Created Shell Script
+>>>>>>> 971d87c74c3fff8d3efd64d99b4d73551de5fca7
   ansible.builtin.script: "/tmp/nginx/auto-apt_zlib.sh"
   register: _auto_apt_zlib_sh
   become: true

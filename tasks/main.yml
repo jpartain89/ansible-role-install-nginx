@@ -23,10 +23,15 @@
     groups: "{{ item }}"
   with_items:
     - "{{ nginx_users_groups }}"
+  become: true
 
 - name: Check Versions
   ansible.builtin.include_tasks: check_version.yml
+<<<<<<< HEAD
   when: nginx_check_version == "true"
+=======
+  when: nginx_check_version is true
+>>>>>>> 971d87c74c3fff8d3efd64d99b4d73551de5fca7
 
 - name: Add Backports apt repo for CheckInstall
   ansible.builtin.apt_repository:
@@ -65,6 +70,7 @@
   become: true
   failed_when: false
 
+<<<<<<< HEAD
 - name: Install Any Extra Programs Needed
   ansible.builtin.apt:
     name: "{{ item }}"
@@ -75,6 +81,8 @@
   failed_when: false
   loop: nginx_extra_prerequisites
 
+=======
+>>>>>>> 971d87c74c3fff8d3efd64d99b4d73551de5fca7
 - name: Confirm /etc/nginx Exists
   ansible.builtin.stat:
     path: /etc/nginx
@@ -113,13 +121,13 @@
   become: true
 
 - name: Grab Current PCRE Version
-  ansible.builtin.command: 'pcre2-config --version'
+  ansible.builtin.command: 'pcre-config --version'
   register: _pcre_installed_vers_num
   failed_when: false
   changed_when: false
 
 - name: Combine Version and name
-  ansible.builtin.command: 'echo "pcre2-{{ _pcre_installed_vers_num.stdout | default(0.0.0) }}"'
+  ansible.builtin.command: 'echo "pcre-{{ _pcre_installed_vers_num.stdout | default(0.0.0) }}"'
   register: _pcre_installed_combined
 
 - name: Show pcre var
@@ -136,10 +144,8 @@
 
 - name: Test if ZLIB is Installed
   ansible.builtin.command: 'dpkg -l zlib'
-  args:
-    warn: false
   register: _zlib_installed
-  failed_when: _zlib_installed.rc > 1
+  failed_when: false
   changed_when: false
   become: true
 
@@ -149,14 +155,12 @@
 
 - name: Test if OpenSSL is Installed
   ansible.builtin.command: "openssl version | awk '{print $2}'"
-  args:
-    warn: false
   register: _openssl_installed
   failed_when: false
   changed_when: false
 
 - name: Combine Version and Name
-  ansible.builtin.command: 'echo "openssl-{{ _openssl_installed.stdout | default(0.0.0) }}"'
+  ansible.builtin.command: 'echo "openssl-{{ _openssl_installed.stdout | default(1.0.0) }}"'
   register: _openssl_installed_combined
 
 # w- name: Run OpenSSL Steps
