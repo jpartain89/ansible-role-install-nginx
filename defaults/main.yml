@@ -4,10 +4,10 @@
 nginx_user: nginx
 nginx_group: nginx
 
-nginx_version: "nginx-1.17.9"
+nginx_version: "nginx-1.23.4"
 pcre_version: "pcre2-10.40"
-zlib_version: "zlib-1.2.12"
-openssl_version: "openssl-1.1.0f"
+zlib_version: "zlib-1.2.13"
+openssl_version: "openssl-1.1.1t"
 
 nginx_check_version: true
 
@@ -54,15 +54,15 @@ nginx_script:
     - 'stream'
 
 # The name of the module here is the final, official name you want to link to
-#nginx_module:
+# nginx_module:
 #  - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }
 
-#nginx_module_nginx:
+# nginx_module_nginx:
 #  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs" }
 
 nginx_extra_prerequisites:
-  #- php7.0
-  #- php7.0-fpm
+  # - php7.0
+  # - php7.0-fpm
 
 nginx_directories:
   - "/usr/lib/nginx/modules"

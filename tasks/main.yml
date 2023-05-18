@@ -26,7 +26,7 @@
 
 - name: Check Versions
   ansible.builtin.include_tasks: check_version.yml
-  when: nginx_check_version == true
+  when: nginx_check_version == "true"
 
 - name: Add Backports apt repo for CheckInstall
   ansible.builtin.apt_repository:
@@ -43,7 +43,7 @@
     owner: "{{ ansible_user_uid | int }}"
     group: "{{ ansible_user_gid | int }}"
     state: directory
-    mode: 0775
+    mode: "0775"
   become: true
 
 - name: Create Master tmp Directory | Localhost
@@ -52,22 +52,9 @@
     owner: "{{ ansible_user_uid | int }}"
     group: "{{ ansible_user_gid | int }}"
     state: directory
-    mode: 0775
+    mode: "0775"
   delegate_to: localhost
   become: true
-
-- name: Installing sury.org's apt repo
-  ansible.builtin.script: "files/sury_php.sh"
-  args:
-    executable: bash
-    creates: /etc/apt/sources.list.d/php.list
-  become: true
-  when: ansible_facts['os_family'] == "Debian"
-
-- name: Installing sury.org's PPA Repo
-  ansible.builtin.apt_repository:
-    repo: ppa:ondrej/php
-  when: ansible_facts['os_family'] == "Ubuntu"
 
 - name: Install Required PreRequisites - apt
   ansible.builtin.apt:
@@ -78,15 +65,16 @@
   become: true
   failed_when: false
 
-#- name: Install Any Extra Programs Needed
-#  ansible.builtin.apt:
-#    name: "{{ nginx_extra_prerequisites }}"
-#    state: present
-#    update_cache: true
-#    cache_valid_time: 32400
-#  become: true
-#  failed_when: false
-#
+- name: Install Any Extra Programs Needed
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 32400
+  become: true
+  failed_when: false
+  loop: nginx_extra_prerequisites
+
 - name: Confirm /etc/nginx Exists
   ansible.builtin.stat:
     path: /etc/nginx
@@ -94,11 +82,14 @@
   become: true
 
 - name: Move Existing NGINX Config Directory
-  ansible.builtin.command: 'mv /etc/nginx /etc/nginx.bak'
+  ansible.builtin.copy:
+    remote_src: true
+    src: /etc/nginx
+    dest: /etc/nginx.old
+    mode: "0775"
   register: _nginx_move
   when:
     - _nginx_config.stat.exists
-    - not _nginx_config.stat.islnk
   become: true
   failed_when: false
 
@@ -109,7 +100,6 @@
   become: true
   when:
     - _nginx_config.stat.exists
-    - _nginx_config.stat.islnk
 
 - name: Create NGINX Directories
   ansible.builtin.file:
@@ -117,7 +107,7 @@
     owner: "{{ nginx_user }}"
     group: "{{ nginx_group }}"
     state: directory
-    mode: 0775
+    mode: "0775"
   with_items:
     - "{{ nginx_directories }}"
   become: true
@@ -131,6 +121,14 @@
 - name: Combine Version and name
   ansible.builtin.command: 'echo "pcre2-{{ _pcre_installed_vers_num.stdout | default(0.0.0) }}"'
   register: _pcre_installed_combined
+
+- name: Show pcre var
+  ansible.builtin.debug:
+    var: _pcre_installed_vers_num.stdout
+
+- name: Show pcre combined var
+  ansible.builtin.debug:
+    var: _pcre_installed_combined.stdout
 
 - name: Run PCRE Steps
   ansible.builtin.include_tasks: pcre.yml
@@ -161,7 +159,7 @@
   ansible.builtin.command: 'echo "openssl-{{ _openssl_installed.stdout | default(0.0.0) }}"'
   register: _openssl_installed_combined
 
-#- name: Run OpenSSL Steps
+# w- name: Run OpenSSL Steps
 #  ansible.builtin.include_tasks: openssl.yml
 #  when: _openssl_installed_combined != openssl_version
 

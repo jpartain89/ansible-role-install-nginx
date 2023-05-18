@@ -14,7 +14,7 @@
   ansible.builtin.template:
     src: auto-apt_pcre.j2
     dest: "/tmp/nginx/auto-apt_pcre.sh"
-    mode: 0775
+    mode: "0775"
   register: _auto_apt_pcre
   delegate_to: localhost
   become: true
