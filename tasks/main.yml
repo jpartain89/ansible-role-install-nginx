@@ -1,20 +1,20 @@
 ---
 
-- name: Include Ubuntu Vars
+- name: Install-NGINX | main.yml | Include Ubuntu Vars
   ansible.builtin.include_vars: ubuntu.yml
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: Include Debian Vars
+- name: Install-NGINX | main.yml | Include Debian Vars
   ansible.builtin.include_vars: debian.yml
   when: ansible_facts['os_family'] == "Debian"
 
-- name: Create NGINX Group
+- name: Install-NGINX | main.yml | Create NGINX Group
   ansible.builtin.group:
     name: nginx
     state: present
     system: true
 
-- name: Create NGINX Users
+- name: Install-NGINX | main.yml | Create NGINX Users
   ansible.builtin.user:
     name: nginx
     group: nginx
@@ -25,15 +25,11 @@
     - "{{ nginx_users_groups }}"
   become: true
 
-- name: Check Versions
+- name: Install-NGINX | main.yml | Check Versions
   ansible.builtin.include_tasks: check_version.yml
-<<<<<<< HEAD
   when: nginx_check_version == "true"
-=======
-  when: nginx_check_version is true
->>>>>>> 971d87c74c3fff8d3efd64d99b4d73551de5fca7
 
-- name: Add Backports apt repo for CheckInstall
+- name: Install-NGINX | main.yml | Add Backports apt repo for CheckInstall
   ansible.builtin.apt_repository:
     repo: "deb http://deb.debian.org/debian buster-backports main contrib falsen-free"
     state: present
@@ -42,7 +38,7 @@
     - ansible_facts['distribution_release'] == "buster"
     - ansible_facts['lsb']['id'] != "Raspbian"
 
-- name: Create Master tmp Directory
+- name: Install-NGINX | main.yml | Create Master tmp Directory
   ansible.builtin.file:
     path: /tmp/nginx
     owner: "{{ ansible_user_uid | int }}"
@@ -51,7 +47,7 @@
     mode: "0775"
   become: true
 
-- name: Create Master tmp Directory | Localhost
+- name: Install-NGINX | main.yml | Create Master tmp Directory | Localhost
   ansible.builtin.file:
     path: /tmp/nginx
     owner: "{{ ansible_user_uid | int }}"
@@ -61,7 +57,7 @@
   delegate_to: localhost
   become: true
 
-- name: Install Required PreRequisites - apt
+- name: Install-NGINX | main.yml | Install Required PreRequisites - apt
   ansible.builtin.apt:
     name: "{{ nginx_prerequisites }}"
     state: present
@@ -70,26 +66,22 @@
   become: true
   failed_when: false
 
-<<<<<<< HEAD
-- name: Install Any Extra Programs Needed
+- name: Install-NGINX | main.yml | Install Any Extra Programs Needed
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name: "{{ nginx_extra_prerequisites }}"
     state: present
     update_cache: true
     cache_valid_time: 32400
   become: true
   failed_when: false
-  loop: nginx_extra_prerequisites
 
-=======
->>>>>>> 971d87c74c3fff8d3efd64d99b4d73551de5fca7
-- name: Confirm /etc/nginx Exists
+- name: Install-NGINX | main.yml | Confirm /etc/nginx Exists
   ansible.builtin.stat:
     path: /etc/nginx
   register: _nginx_config
   become: true
 
-- name: Move Existing NGINX Config Directory
+- name: Install-NGINX | main.yml | Move Existing NGINX Config Directory
   ansible.builtin.copy:
     remote_src: true
     src: /etc/nginx
@@ -101,7 +93,7 @@
   become: true
   failed_when: false
 
-- name: Remove NGINX Config Link
+- name: Install-NGINX | main.yml | Remove NGINX Config Link
   ansible.builtin.file:
     path: "/etc/nginx"
     state: absent
@@ -109,7 +101,7 @@
   when:
     - _nginx_config.stat.exists
 
-- name: Create NGINX Directories
+- name: Install-NGINX | main.yml | Create NGINX Directories
   ansible.builtin.file:
     path: "{{ item }}"
     owner: "{{ nginx_user }}"
@@ -120,54 +112,48 @@
     - "{{ nginx_directories }}"
   become: true
 
-- name: Grab Current PCRE Version
-  ansible.builtin.command: 'pcre-config --version'
-  register: _pcre_installed_vers_num
-  failed_when: false
-  changed_when: false
+- name: Install-NGINX | main.yml | Grab Current PCRE Version
+  ansible.builtin.package_facts:
+    manager: auto
+  register: _pcre2_facts
+  become: true
 
-- name: Combine Version and name
-  ansible.builtin.command: 'echo "pcre-{{ _pcre_installed_vers_num.stdout | default(0.0.0) }}"'
-  register: _pcre_installed_combined
+- name: Install-NGINX | main.yml | Test pcre2-utils version is correct
+  ansible.builtin.assert:
+    that:
+      - pcre2_utils.version in _pcre2_facts['packages']['pcre2-utils'][0]['version'] == pcre_version
+  register: pcre2_assertion
 
-- name: Show pcre var
-  ansible.builtin.debug:
-    var: _pcre_installed_vers_num.stdout
-
-- name: Show pcre combined var
-  ansible.builtin.debug:
-    var: _pcre_installed_combined.stdout
-
-- name: Run PCRE Steps
+- name: Install-NGINX | main.yml | Run PCRE Steps
   ansible.builtin.include_tasks: pcre.yml
-  when: _pcre_installed_combined.stdout != pcre_version
+  when: pcre2_assertion is false
 
-- name: Test if ZLIB is Installed
+- name: Install-NGINX | main.yml | Test if ZLIB is Installed
   ansible.builtin.command: 'dpkg -l zlib'
   register: _zlib_installed
   failed_when: false
   changed_when: false
   become: true
 
-- name: Run ZLIB Steps
+- name: Install-NGINX | main.yml | Run ZLIB Steps
   ansible.builtin.include_tasks: zlib.yml
   when: _zlib_installed.rc != 0
 
-- name: Test if OpenSSL is Installed
+- name: Install-NGINX | main.yml | Test if OpenSSL is Installed
   ansible.builtin.command: "openssl version | awk '{print $2}'"
   register: _openssl_installed
   failed_when: false
   changed_when: false
 
-- name: Combine Version and Name
+- name: Install-NGINX | main.yml | Combine Version and Name
   ansible.builtin.command: 'echo "openssl-{{ _openssl_installed.stdout | default(1.0.0) }}"'
   register: _openssl_installed_combined
 
-# w- name: Run OpenSSL Steps
+# w- name: Install-NGINX | main.yml | Run OpenSSL Steps
 #  ansible.builtin.include_tasks: openssl.yml
 #  when: _openssl_installed_combined != openssl_version
 
-- name: Git Clone Any Additional Static Modules
+- name: Install-NGINX | main.yml | Git Clone Any Additional Static Modules
   ansible.builtin.git: # noqa 401
     repo: "{{ item.address }}"
     dest: "/tmp/nginx/{{ item.name }}"
@@ -180,10 +166,10 @@
   failed_when: false
   become: true
 
-- name: Run NGINX Steps
+- name: Install-NGINX | main.yml | Run NGINX Steps
   ansible.builtin.include_tasks: nginx.yml
 
-- name: Move NGINX Config Directory Back
+- name: Install-NGINX | main.yml | Move NGINX Config Directory Back
   ansible.builtin.command: 'mv /etc/nginx.bak /etc/nginx'
   when:
     - _nginx_config.stat.exists
@@ -191,7 +177,7 @@
   become: true
   failed_when: false
 
-- name: ReLink NGINX
+- name: Install-NGINX | main.yml | ReLink NGINX
   ansible.builtin.file:
     src: "{{ nginx_config_loc }}"
     dest: /etc/nginx
