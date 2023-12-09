@@ -8,6 +8,7 @@
     state: present
   register: _pcre2_apt
 
+# using the block to go around compiling the code
 - name: Install-NGINX | pcre.yml | Block | Compile PCRE2
   block:
     - name: Install-NGINX | pcre.yml | Download PCRE
