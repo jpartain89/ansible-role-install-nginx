@@ -6,10 +6,15 @@
   ansible.builtin.package:
     name: pcre2-utils
     state: present
-  register: _pcre2_apt
+
+- name: Install-NGINX | pcre.yml | Rescan apt packages list
+  ansible.builtin.package_facts:
+    manager: auto
+  become: true
 
 # using the block to go around compiling the code
 - name: Install-NGINX | pcre.yml | Block | Compile PCRE2
+  when: "'pcre2-utils' not in ansible_facts.packages"
   block:
     - name: Install-NGINX | pcre.yml | Download PCRE
       ansible.builtin.unarchive:
@@ -34,4 +39,3 @@
       register: _auto_apt_pcre_sh
       become: true
       notify: Delete PCRE Script
-  when: _pcre2_apt is installed
