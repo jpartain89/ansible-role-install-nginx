@@ -81,18 +81,6 @@
   register: _nginx_config
   become: true
 
-- name: Install-NGINX | main.yml | Move Existing NGINX Config Directory
-  ansible.builtin.copy:
-    remote_src: true
-    src: /etc/nginx
-    dest: /etc/nginx.old
-    mode: "0775"
-  register: _nginx_move
-  when:
-    - _nginx_config.stat.exists
-  become: true
-  failed_when: false
-
 - name: Install-NGINX | main.yml | Remove NGINX Config Link
   ansible.builtin.file:
     path: "/etc/nginx"
@@ -168,14 +156,6 @@
 
 - name: Install-NGINX | main.yml | Run NGINX Steps
   ansible.builtin.include_tasks: nginx.yml
-
-- name: Install-NGINX | main.yml | Move NGINX Config Directory Back
-  ansible.builtin.command: 'mv /etc/nginx.bak /etc/nginx'
-  when:
-    - _nginx_config.stat.exists
-    - _nginx_config.stat.islnk is false
-  become: true
-  failed_when: false
 
 - name: Install-NGINX | main.yml | ReLink NGINX
   ansible.builtin.file:
