@@ -125,7 +125,7 @@
 #  when: _openssl_facts != openssl_version
 
 - name: Install-NGINX | main.yml | Git Clone Any Additional Static Modules
-  ansible.builtin.git: # noqa 401
+  ansible.builtin.git: # latest[git]
     repo: "{{ item.address }}"
     dest: "/tmp/nginx/{{ item.name }}"
     clone: true
