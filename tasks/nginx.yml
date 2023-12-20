@@ -18,7 +18,7 @@
   delegate_to: localhost
   become: true
 
-- name: Install-NGINX | openssl.yml | Run Created Shell Script
+- name: Install-NGINX | nginx.yml | Run Created Shell Script
   ansible.builtin.script: "/tmp/nginx/auto-apt_nginx.sh"
   register: _auto_apt_nginx_sh
   notify: Delete All tmp Files
