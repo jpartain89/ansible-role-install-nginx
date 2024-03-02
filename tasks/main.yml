@@ -27,11 +27,7 @@
 
 - name: Check Versions
   ansible.builtin.include_tasks: check_version.yml
-<<<<<<< HEAD
   when: nginx_check_version == "true"
-=======
-  when: nginx_check_version is true
->>>>>>> 971d87c74c3fff8d3efd64d99b4d73551de5fca7
 
 - name: Add Backports apt repo for CheckInstall
   ansible.builtin.apt_repository:
@@ -70,7 +66,6 @@
   become: true
   failed_when: false
 
-<<<<<<< HEAD
 - name: Install Any Extra Programs Needed
   ansible.builtin.apt:
     name: "{{ item }}"
@@ -81,8 +76,6 @@
   failed_when: false
   loop: nginx_extra_prerequisites
 
-=======
->>>>>>> 971d87c74c3fff8d3efd64d99b4d73551de5fca7
 - name: Confirm /etc/nginx Exists
   ansible.builtin.stat:
     path: /etc/nginx
