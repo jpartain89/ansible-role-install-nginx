@@ -1,7 +1,7 @@
 ---
 # Task list for openssl
 
-- name: NGINX | openssl.yml | Download openssl
+- name: Install-NGINX | openssl.yml | Download openssl
   ansible.builtin.unarchive:
     src: "{{ openssl_url }}"
     dest: "/tmp/nginx"
@@ -10,7 +10,7 @@
     group: "{{ ansible_user_gid | int }}"
   become: true
 
-- name: NGINX | openssl.yml | Create auto-apt_openssl Script from Template
+- name: Install-NGINX | openssl.yml | Create auto-apt_openssl Script from Template
   ansible.builtin.template:
     src: auto-apt_openssl.j2
     dest: "/tmp/nginx/auto-apt_openssl.sh"
@@ -19,7 +19,7 @@
   delegate_to: localhost
   become: true
 
-- name: NGINX | openssl.yml | Run Created Shell Script
+- name: Install-NGINX | openssl.yml | Run Created Shell Script
   ansible.builtin.script: /tmp/nginx/auto-apt_openssl.sh
   register: _auto_apt_openssl_sh
   notify: Delete OpenSSL Script

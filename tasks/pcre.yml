@@ -1,26 +1,41 @@
 ---
 # Task list for PCRE
 
-- name: NGINX | pcre.yml | Download PCRE
-  ansible.builtin.unarchive:
-    src: "{{ pcre_url }}"
-    dest: "/tmp/nginx"
-    remote_src: true
-    owner: "{{ ansible_user_uid | int }}"
-    group: "{{ ansible_user_gid | int }}"
+- name: Install-NGINX | pcre.yml | Try installing the apt version
+  when: ansible_os_family == 'Debian'
+  ansible.builtin.package:
+    name: pcre2-utils
+    state: present
+
+- name: Install-NGINX | pcre.yml | Rescan apt packages list
+  ansible.builtin.package_facts:
+    manager: auto
   become: true
 
-- name: NGINX | pcre.yml | Create auto-apt_pcre Script from Template
-  ansible.builtin.template:
-    src: auto-apt_pcre.j2
-    dest: "/tmp/nginx/auto-apt_pcre.sh"
-    mode: "0775"
-  register: _auto_apt_pcre
-  delegate_to: localhost
-  become: true
+# using the block to go around compiling the code
+- name: Install-NGINX | pcre.yml | Block | Compile PCRE2
+  when: "'pcre2-utils' not in ansible_facts.packages"
+  block:
+    - name: Install-NGINX | pcre.yml | Download PCRE
+      ansible.builtin.unarchive:
+        src: "{{ pcre_url }}"
+        dest: "/tmp/nginx"
+        remote_src: true
+        owner: "{{ ansible_user_uid | int }}"
+        group: "{{ ansible_user_gid | int }}"
+      become: true
 
-- name: NGINX | pcre.yml | Run Created Shell Script
-  ansible.builtin.script: "/tmp/nginx/auto-apt_pcre.sh"
-  register: _auto_apt_pcre_sh
-  become: true
-  notify: Delete PCRE Script
+    - name: Install-NGINX | pcre.yml | Create auto-apt_pcre Script from Template
+      ansible.builtin.template:
+        src: auto-apt_pcre.j2
+        dest: "/tmp/nginx/auto-apt_pcre.sh"
+        mode: "0775"
+      register: _auto_apt_pcre
+      delegate_to: localhost
+      become: true
+
+    - name: Install-NGINX | pcre.yml | Run Created Shell Script
+      ansible.builtin.script: "/tmp/nginx/auto-apt_pcre.sh"
+      register: _auto_apt_pcre_sh
+      become: true
+      notify: Delete PCRE Script

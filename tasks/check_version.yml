@@ -1,16 +1,16 @@
 ---
 
-- name: NGINX | check_version.yml | Get the Currently Installed NGINX Version
+- name: Install-NGINX | check_version.yml | Get the Currently Installed NGINX Version
   ansible.builtin.shell: "nginx -v 2>&1  | grep -o '[0-9.]*$'"
   register: _current_nginx_version_number
   ignore_errors: true
   changed_when: false
 
-- name: NGINX | check_version.yml | Combine nginx- with Version Number
+- name: Install-NGINX | check_version.yml | Combine nginx- with Version Number
   ansible.builtin.command: 'echo "nginx-{{ _current_nginx_version_number.stdout  | default(0.0.0) }}"'
   register: _current_nginx_version
 
-- name: NGINX | check_version.yml | Compare Versions
+- name: Install-NGINX | check_version.yml | Compare Versions
   ansible.builtin.fail:
     msg: "NGINX Doesn't Require any Update. Cancelling..."
   when: nginx_version == _current_nginx_version.stdout
