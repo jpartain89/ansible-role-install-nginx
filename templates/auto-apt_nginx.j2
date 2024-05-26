@@ -40,7 +40,9 @@ sudo ./configure \
     {%- for key in nginx_extra_extras %}
     --{{ key }}="{{ nginx_extra_extras[key] }}" \
     {% endfor %}{% endif %}
-    --with-http_v2_module
+    --with-http_v2_module \
+    --with-http_v3_module
+
 
 sudo make &&
 sudo checkinstall -y \
