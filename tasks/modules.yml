@@ -34,6 +34,7 @@
     dest: "/tmp/nginx/{{ item.name }}"
     clone: true
     update: true
+    version: latest # noqa: latest
     recursive: true
   with_items:
     - "{{ nginx_dynamic_module }}"

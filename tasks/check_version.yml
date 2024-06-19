@@ -9,6 +9,7 @@
 - name: Install-NGINX | check_version.yml | Combine nginx- with Version Number
   ansible.builtin.command: 'echo "nginx-{{ _current_nginx_version_number.stdout  | default(0.0.0) }}"'
   register: _current_nginx_version
+  changed_when: false
 
 - name: Install-NGINX | check_version.yml | Compare Versions
   ansible.builtin.fail:

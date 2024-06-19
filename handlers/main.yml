@@ -40,3 +40,5 @@
 - name: Reload NGINX
   ansible.builtin.command: '/etc/init.d/nginx upgrade_nginx'
   become: true
+  register: _upgrade_nginx
+  changed_when: false

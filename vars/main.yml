@@ -39,15 +39,15 @@ nginx_script:
     - 'stream'
 
 # The name of the module here is the final, official name you want to link to
-#nginx_module:
+# nginx_module:
 #  - { name: "ngx-fancyindex", address: "https://github.com/aperezdc/ngx-fancyindex.git" }
 
-#nginx_module_nginx:
+# nginx_module_nginx:
 #  - { name: "ngx_http_js_module", address: "https://github.com/nginx/njs" }
 
-#nginx_extra_prerequisites: []
-  #- php7.0
-  #- php7.0-fpm
+# nginx_extra_prerequisites: []
+  # - php7.0
+  # - php7.0-fpm
 
 nginx_directories:
   - "/usr/lib/nginx/modules"
@@ -56,4 +56,4 @@ nginx_directories:
   - "/var/lib/nginx/body"
   - "/usr/local/share/doc"
 
-#nginx_users_groups: nginx
+# nginx_users_groups: nginx
