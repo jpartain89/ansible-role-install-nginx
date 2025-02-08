@@ -11,7 +11,6 @@ nginx_prerequisites:
   - gawk
   - make
   - libpcre3-dev
-  - libpcre++-dev
   - libssl-dev
   - checkinstall
   - zlib1g-dev

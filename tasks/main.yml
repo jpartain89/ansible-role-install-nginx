@@ -38,6 +38,10 @@
     - ansible_facts['distribution_release'] == "buster"
     - ansible_facts['lsb']['id'] != "Raspbian"
 
+- name: Install-NGINX | main.yml | Add Ondrey Surys PHP repo
+  ansible.builtin.apt_repository:
+    repo: ppa:ondrej/php
+
 - name: Install-NGINX | main.yml | Create Master tmp Directory
   ansible.builtin.file:
     path: /tmp/nginx
@@ -64,7 +68,7 @@
     update_cache: true
     cache_valid_time: 32400
   become: true
-  failed_when: false
+  # failed_when: false
 
 - name: Install-NGINX | main.yml | Install Any Extra Programs Needed
   ansible.builtin.apt:
@@ -73,7 +77,7 @@
     update_cache: true
     cache_valid_time: 32400
   become: true
-  failed_when: false
+  # failed_when: false
 
 - name: Install-NGINX | main.yml | Confirm /etc/nginx Exists
   ansible.builtin.stat:
@@ -107,10 +111,17 @@
 
 - name: Debug pcre2_facts
   ansible.builtin.set_fact:
-    _pcre2_facts: "{{ ansible_facts.packages['pcre2-utils'][0].version }}"
-    _zlib_facts: "{{ ansible_facts.packages['zlib1g'][0].version }}"
-    _openssl_facts: "{{ ansible_facts.packages['openssl'][0].version }}"
-  when: "'pcre2-utils' in ansible_facts.packages"
+    _pcre2_facts: "{{ ansible_facts.packages['pcre2-utils'][0].version | default('undefined') }}"
+    _zlib_facts: "{{ ansible_facts.packages['zlib1g'][0].version | default('undefined') }}"
+    _openssl_facts: "{{ ansible_facts.packages['openssl'][0].version | default('undefined') }}"
+  # when: "'pcre2-utils' in ansible_facts.packages"
+
+- name: Show the facts output!
+  ansible.builtin.debug:
+    msg:
+      - "{{ _pcre2_facts }} is supposed to be {{ ansible_facts.packages['pcre2-utils'][0].version }}"
+      - "{{ _zlib_facts }} is supposed to be {{ ansible_facts.packages['zlib1g'][0].version }}"
+      - "{{ _openssl_facts }} is supposed to be {{ ansible_facts.packages['openssl'][0].version }}"
 
 - name: Install-NGINX | main.yml | Run PCRE Steps
   ansible.builtin.include_tasks: pcre.yml
@@ -121,8 +132,9 @@
   when: _zlib_facts != zlib_version
 
 # - name: Install-NGINX | main.yml | Run OpenSSL Steps
-#  ansible.builtin.include_tasks: openssl.yml
-#  when: _openssl_facts != openssl_version
+#   ansible.builtin.include_tasks: openssl.yml
+#   # when:
+#   #   - _openssl_facts != openssl_version
 
 - name: Install-NGINX | main.yml | Git Clone Any Additional Static Modules
   ansible.builtin.git: # latest[git]

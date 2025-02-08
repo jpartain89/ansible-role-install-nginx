@@ -5,7 +5,4 @@ cd "/tmp/nginx/{{ zlib_version }}" &&
 
 sudo ./configure &&
 sudo make &&
-sudo checkinstall -y \
-    --maintainer {{ ansible_user_id }} \
-    --pkgname zlib \
-    --pkgversion {{ zlib_version }}
+sudo make install

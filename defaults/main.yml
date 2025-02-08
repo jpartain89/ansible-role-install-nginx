@@ -4,10 +4,11 @@
 nginx_user: nginx
 nginx_group: nginx
 
-nginx_version: "nginx-1.23.4"
-pcre_version: "10.40-1+ubuntu22.04.1+deb.sury.org+1"
-zlib_version: "1:1.2.11.dfsg-2ubuntu9.2"
+nginx_version: "nginx-1.27.4"
+pcre_version: "pcre2-10.45"
+zlib_version: "zlib-1.3.1"
 openssl_version: "3.0.2-0ubuntu1.12"
+quic_openssl_version: "openssl-3.3.0-quic1"
 
 # Blank values for the following variable keys for point float error
 _zlib_installed: []
@@ -15,9 +16,10 @@ _zlib_installed: []
 nginx_check_version: true
 
 nginx_url: "http://nginx.org/download/{{ nginx_version }}.tar.gz"
-pcre_url: "https://ftp.exim.org/pub/pcre/{{ pcre_version }}.tar.gz"
+pcre_url: "https://github.com/PCRE2Project/pcre2/releases/download/{{ pcre_version }}/{{ pcre_version }}.tar.gz"
 zlib_url: "https://zlib.net/{{ zlib_version }}.tar.gz"
-openssl_url: "http://www.openssl.org/source/{{ openssl_version }}.tar.gz"
+# openssl_url: "http://www.openssl.org/source/{{ openssl_version }}.tar.gz"
+quic_openssl_url: "https://github.com/quictls/openssl/archive/refs/tags/{{ quic_openssl_version }}.tar.gz"
 
 nginx_config_loc: "{{ ansible_env.HOME }}/git/nginx-deployment/nginx_conf"
 

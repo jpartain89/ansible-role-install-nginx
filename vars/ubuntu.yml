@@ -24,3 +24,4 @@ nginx_prerequisites:
   - libperl-dev
   - libssl-dev
   - libcurl4-openssl-dev
+  - libgd-dev
