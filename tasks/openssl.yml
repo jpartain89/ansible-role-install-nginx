@@ -3,7 +3,7 @@
 
 - name: Install-NGINX | openssl.yml | Download openssl
   ansible.builtin.unarchive:
-    src: "{{ openssl_url }}"
+    src: "{{ quic_openssl_url }}"
     dest: "/tmp/nginx"
     remote_src: true
     owner: "{{ ansible_user_uid | int }}"
