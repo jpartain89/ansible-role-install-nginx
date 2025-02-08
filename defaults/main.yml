@@ -24,14 +24,13 @@ quic_openssl_url: "https://github.com/quictls/openssl/archive/refs/tags/{{ quic_
 nginx_config_loc: "{{ ansible_env.HOME }}/git/nginx-deployment/nginx_conf"
 
 nginx_script:
-  prefix: /usr/share/nginx
+  prefix: /etc/nginx
   sbin_path: /usr/sbin/nginx
   conf_path: /etc/nginx/nginx.conf
   http_log_path: /var/log/nginx/access.log
   error_log_path: /var/log/nginx/error.log
   lock_path: /var/lock/nginx.lock
-  pid_path: /run/nginx.pid
-  modules_path: /usr/lib/nginx/modules
+  pid_path: /var/log/nginx/nginx.pid
   http_client_body_temp_path: /var/lib/nginx/body
   http_fastcgi_temp_path: /var/lib/nginx/fastcgi
   http_proxy_temp_path: /var/lib/nginx/proxy
