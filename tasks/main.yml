@@ -125,16 +125,15 @@
 
 - name: Install-NGINX | main.yml | Run PCRE Steps
   ansible.builtin.include_tasks: pcre.yml
-  when: _pcre2_facts != pcre_version
+  when: _pcre2_facts != ansible_facts.packages['pcre2-utils'][0].version
 
 - name: Install-NGINX | main.yml | Run ZLIB Steps
   ansible.builtin.include_tasks: zlib.yml
-  when: _zlib_facts != zlib_version
+  when: _zlib_facts != ansible_facts.packages['zlib1g'][0].version
 
-# - name: Install-NGINX | main.yml | Run OpenSSL Steps
-#   ansible.builtin.include_tasks: openssl.yml
-#   # when:
-#   #   - _openssl_facts != openssl_version
+- name: Install-NGINX | main.yml | Run OpenSSL Steps
+  ansible.builtin.include_tasks: openssl.yml
+  when: _openssl_facts != ansible_facts.packages['openssl'][0].version
 
 - name: Install-NGINX | main.yml | Git Clone Any Additional Static Modules
   ansible.builtin.git: # latest[git]
@@ -147,8 +146,12 @@
   with_items:
     - "{{ nginx_module }}"
     - "{{ nginx_module_nginx }}"
+    - "{{ nginx_dynamic_module }}"
   failed_when: false
   become: true
+
+- name: Install-NGINX | main.yml | Run modules.yml
+  ansible.builtin.include_tasks: modules.yml
 
 - name: Install-NGINX | main.yml | Run NGINX Steps
   ansible.builtin.include_tasks: nginx.yml
