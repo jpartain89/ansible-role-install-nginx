@@ -1,5 +1,5 @@
 ---
-# debian vars file for install-nginx
+# vars file for install-nginx
 
 nginx_prerequisites:
   - aptitude
@@ -22,3 +22,4 @@ nginx_prerequisites:
   - libperl-dev
   - libssl-dev
   - libcurl4-openssl-dev
+  - libgd-dev

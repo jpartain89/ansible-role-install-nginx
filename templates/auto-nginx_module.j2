@@ -3,7 +3,6 @@ set -e
 
 cd "/tmp/nginx/{{ nginx_version }}" &&
 
-
 ./configure --with-compat \
   {% for module in nginx_dynamic_module %}
   --add-dynamic-module=../{{ module.name }}
